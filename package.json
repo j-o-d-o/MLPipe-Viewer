@@ -5,11 +5,27 @@
   "dependencies": {
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.5"
+    "immutable": "^3.8.2",
+    "redux": "^4.0.1",
+    "rmwc": "^3.0.5",
+    "prop-types": "^15.6.2",
+    "react-redux-loading-bar": "^4.0.8",
+    "react-router-dom": "^4.3.1",
+    "express": "^4.16.4",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.4",
+    "react-scripts": "2.0.5",
+    "npm-run-all": "^4.1.3",
+    "react-dev-utils": "6.0.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-css": "node-sass --include-path src --include-path node_modules src/index.scss public/bundle.css --output-style compressed --source-map false",
+    "watch-css": "npm run build-css && node-sass --include-path src --include-path node_modules src/index.scss public/bundle.css --source-map true --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
