@@ -1,19 +1,20 @@
 // Module Includes
 import React from 'react';
 import { Route, Switch } from 'react-router-dom'
-import { PrivateRoute, PublicRoute } from 'shared/route_restriction.component' 
+import PrivateRoute from 'components/routes/privateRoute'; 
+import PublicRoute from 'components/routes/publicRoute'; 
 
 // Layouts 
-import Layout from 'shared/layout';
+import Layout from 'components/layout';
 // Main components
-import User from 'features/user/user_page/user_page.component';
-import Login from 'features/auth/login_page/login_page.component';
-import Register from 'features/auth/login_page/login_page.component';
-import Dashboard from 'features/user/register_page/register_page.component';
+import User from 'components/user';
+import Login from 'components/auth/login.js';
+import Register from 'components/auth/register';
+import Dashboard from 'components/dashboard';
 // Error Pages
-import Error_404 from 'features/errors/error_404.component';
+import Error404 from 'components/errors/404';
 
- 
+
 export default (
     <Layout>
         <Switch>
@@ -23,7 +24,7 @@ export default (
             <PrivateRoute exact path="/" component={Dashboard} />
             <PrivateRoute path="/user/:user" component={User} />
 
-            <Route component={Error_404} />
+            <Route component={Error404} />
         </Switch>
     </Layout>
 );

@@ -1,3 +1,13 @@
 // variables must be first import inorder to possibly
 // override variables from librarys such as MDC
 @import 'scss/variables';
+
+// TODO: Import MDC here
+@import '@material/button/mdc-button';
+
+// SCSS files which are not component specific
+@import 'scss/mixins';
+@import 'scss/overrides';
+@import 'scss/main';
+
+// Component specific SCSS files

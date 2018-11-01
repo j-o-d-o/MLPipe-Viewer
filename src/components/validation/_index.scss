@@ -1,0 +1,8 @@
+.validation_component{
+    width: 100%;
+    .validation_text{
+        color: $error-color;
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+}

@@ -1,0 +1,42 @@
+@mixin center-block($max-width){
+    width: 100%;
+    max-width: $max-width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@mixin link-style(){
+    text-decoration: none;
+    color: $link-color;
+    cursor: pointer;
+    outline: 0px;
+}
+
+@mixin content-default(){
+    flex: 1;
+    width: 100%;
+    background: $background-light;
+
+    overflow: auto;
+    padding-top: 40px;
+    padding-bottom: 90px;
+}
+
+@mixin fab-btn(){
+    box-shadow: none;
+    width: 40px;
+    height: 40px;
+    min-width: 0px;
+    min-height: 0px;
+    .material-icons{
+        color: #454545;
+    }
+}
+
+@mixin transition() {
+    $transition: all 0.3s ease;
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}
