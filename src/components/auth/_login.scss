@@ -1,0 +1,19 @@
+#login-page{
+    max-width: 650px;
+
+    form {
+        width: 100%;
+        max-width: 370px;
+        > * {
+            display: block;
+            width: calc(100% - 13px);
+            margin-left: 5px;
+            margin-bottom: 14px;
+        }
+    }
+
+    #login-progress-bar{
+        position: absolute;
+        top: 0px;
+    }
+}

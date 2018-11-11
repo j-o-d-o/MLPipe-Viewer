@@ -2,8 +2,8 @@
 // override variables from librarys such as MDC
 @import 'scss/variables';
 
-// TODO: Import MDC here
-@import '@material/button/mdc-button';
+// MDC SCSS files
+@import 'material-components-web/material-components-web';
 
 // SCSS files which are not component specific
 @import 'scss/mixins';
@@ -11,3 +11,7 @@
 @import 'scss/main';
 
 // Component specific SCSS files
+@import 'components/layout/index';
+@import 'components/header/index';
+@import 'components/auth/login';
+@import 'components/auth/register';

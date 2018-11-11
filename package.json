@@ -10,7 +10,6 @@
     "rmwc": "^3.0.9",
     "prop-types": "^15.6.2",
     "react-redux": "^5.1.0",
-    "redux-thunk": "^2.3.0",
     "react-redux-loading-bar": "^4.1.0",
     "react-router-dom": "^4.3.1",
     "express": "^4.16.4",
@@ -23,10 +22,10 @@
     "react-dev-utils": "6.1.1"
   },
   "scripts": {
-    "build-css": "node-sass --include-path src --include-path node_modules src/index.scss public/bundle.css --output-style compressed --source-map false",
-    "watch-css": "npm run build-css && node-sass --include-path src --include-path node_modules src/index.scss public/bundle.css -w -r --source-map true",
+    "build-css": "node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css --output-style compressed --source-map false",
+    "watch-css": "npm run build-css && node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css -w -r --source-map true",
     "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
+    "start": "npm-run-all --parallel start-js watch-css",
     "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

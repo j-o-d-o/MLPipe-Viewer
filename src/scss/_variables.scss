@@ -1,13 +1,19 @@
 $mdc-theme-primary: #404040;
-$mdc-theme-accent: #8bc34a;
-$mdc-theme-background: #fff;
+$mdc-theme-on-primary: #fff;
+
+$mdc-theme-secondary: #8bc34a;
+$mdc-theme-on-secondary: #fff;
+
+$mdc-theme-error: #e84e4e;
+$mdc-theme-on-error: #fff !default;
+
+$mdc-theme-background: #f5f5f5;
+$mdc-theme-surface: #fff;
+
 $link-color: #6464e4;
-$error-color: #e84e4e;
-$background-light: #f6f6f6;
 
 $size-tablet: 840px;
 $size-phone: 480px;
-
-$max-content-width: 1200px;
+//$max-content-width: 1200px;
 
 $mdc-typography-font-family: 'Montserrat', sans-serif !default;

@@ -6,6 +6,8 @@ html, #root {
     margin: 0px;
     width: 100%;
     min-height: 100vh;
+    display: block;
+    background: $mdc-theme-background;
 }
 
 body{
@@ -31,4 +33,17 @@ h1, h2, h3, h4{
 
 .link-style{
     @include link-style();
+}
+
+.flex-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    width: 100%;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    margin-top: 40px;
+    flex-direction: column;
+    position: relative;
 }

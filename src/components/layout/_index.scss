@@ -1,3 +1,28 @@
-#layout_root{
-    background: #FFCCFF;
+#layout, #layout-content {
+    background: transparent;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    #error-snackbar{
+        background: $mdc-theme-error;
+        .mdc-snackbar__action-button{
+            color: white;
+        }
+    }
+    #info-snackbar{
+        .mdc-snackbar__action-button{
+            color: white;
+        }
+    }
+}
+
+#layout-content {
+    // height of TopAppBar
+    padding-top: $mdc-top-app-bar-row-height;
+    @media (max-width: $mdc-top-app-bar-mobile-breakpoint) {
+        padding-top: $mdc-top-app-bar-mobile-row-height;
+    }
 }

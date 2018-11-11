@@ -1,27 +1,23 @@
+// TODO: Add link to "forgot password"
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import AuthApi from './api';
-import * as authActions from './actions';
+import { login } from './actions';
+import { snackbarError } from 'components/layout/actions';
 import * as authUtil from 'utils/auth.util';
 
 //import Validation from 'shared/validation';
+import { TextField } from '@rmwc/textfield';
+import { Button } from '@rmwc/button';
+import { LinearProgress } from '@rmwc/linear-progress';
 
-// TextField
-// Button
-// Snackbar
 
-
-function mapStateToProps(state, ownProps) {
-    return {
-        auth: state.auth.toObject()
-    };
-}
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({...authActions}, dispatch),
+        actions: bindActionCreators({login, snackbarError}, dispatch),
     };
 }
 
@@ -34,18 +30,21 @@ class Login extends React.Component {
 
         this.state = {
             credentials: { email: '', password: '' },
-            sending: false
+            sending: false,
+            cancelAsync: false,
         }
+    }
+
+    componentWillUnmount() {
+        // TODO: Cancel fetch API
     }
 
     submitLogin(e) {
         e.preventDefault();
         this.setState({ sending: true });
-        this.props.actions.showLoading();
- 
+
         AuthApi.login(this.state.credentials).then(res => {
             this.setState({ sending: false });
-            this.props.actions.hideLoading();
 
             if (res.status === 200) {
                 this.props.actions.login(res.json);
@@ -55,13 +54,9 @@ class Login extends React.Component {
             }
             else {
                 console.log(res);
-                this.refs.snackbar.show({
-                    message: "Oh no, an Error :(",
-                    actionOnButton: false
-                });
+                this.props.actions.snackbarError("Unkown error on login");
             }
         });
-
     }
 
     handleChange(event) {
@@ -74,28 +69,23 @@ class Login extends React.Component {
     render() {
         if (authUtil.isLogged()) {
             const { from } = this.props.location.state || { from: { pathname: '/register' } }
-
             return (
                 <Redirect to={from} />
             )
         }
 
         return (
-            <div id="login_page">
-                <div id="login_content">
-                    <h2>Login</h2>
-                    <form onSubmit={this.submitLogin}>
-                        {/* <Validation data={this.state.validation} /> 
-                        <Textfield label="Username / Email" name="email" onChange={this.handleChange} required={true}/>
-                        <Textfield label="Password" type="Password" name="password" onChange={this.handleChange} required={true}/>
-                        <MdcButton disabled={this.state.sending} type="submit" id="login_btn" className="mdc-button--accent">Login</MdcButton>
-                        */}
-                    </form>
-                </div>
-                {/* <Snackbar ref="snackbar"></Snackbar> */}
+            <div id="login-page" className="flex-content">
+                <LinearProgress id="login-progress-bar" determinate={false} closed={!this.state.sending}/>
+                <form onSubmit={this.submitLogin}>
+                    {/* <Validation data={this.state.validation} /> */}
+                    <TextField label="Username / Email" name="email" onChange={this.handleChange} required={true}/>
+                    <TextField label="Password" type="Password" name="password" onChange={this.handleChange} required={true}/>
+                    <Button disabled={this.state.sending} type="submit" id="login-btn" theme="secondary-bg on-secondary">Login</Button>
+                </form>
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(null, mapDispatchToProps)(Login)
