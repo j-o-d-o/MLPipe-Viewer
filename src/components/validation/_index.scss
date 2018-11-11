@@ -1,7 +1,7 @@
 .validation_component{
     width: 100%;
     .validation_text{
-        color: $error-color;
+        color: $mdc-theme-error;
         margin-top: 3px;
         margin-bottom: 3px;
     }

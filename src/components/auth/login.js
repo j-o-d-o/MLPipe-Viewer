@@ -9,7 +9,7 @@ import { login } from './actions';
 import { snackbarError } from 'components/layout/actions';
 import * as authUtil from 'utils/auth.util';
 
-//import Validation from 'shared/validation';
+import Validation from 'components/validation';
 import { TextField } from '@rmwc/textfield';
 import { Button } from '@rmwc/button';
 import { LinearProgress } from '@rmwc/linear-progress';
@@ -31,7 +31,6 @@ class Login extends React.Component {
         this.state = {
             credentials: { email: '', password: '' },
             sending: false,
-            cancelAsync: false,
         }
     }
 
@@ -48,6 +47,8 @@ class Login extends React.Component {
 
             if (res.status === 200) {
                 this.props.actions.login(res.json);
+                const { from } = this.props.location.state || { from: { pathname: '/dashboard' } }
+                this.props.history.push(from.pathname);
             }
             else if (res.status === 400) {
                 this.setState({validation: res});
@@ -67,18 +68,11 @@ class Login extends React.Component {
     }
 
     render() {
-        if (authUtil.isLogged()) {
-            const { from } = this.props.location.state || { from: { pathname: '/register' } }
-            return (
-                <Redirect to={from} />
-            )
-        }
-
         return (
             <div id="login-page" className="flex-content">
                 <LinearProgress id="login-progress-bar" determinate={false} closed={!this.state.sending}/>
                 <form onSubmit={this.submitLogin}>
-                    {/* <Validation data={this.state.validation} /> */}
+                    <Validation data={this.state.validation} />
                     <TextField label="Username / Email" name="email" onChange={this.handleChange} required={true}/>
                     <TextField label="Password" type="Password" name="password" onChange={this.handleChange} required={true}/>
                     <Button disabled={this.state.sending} type="submit" id="login-btn" theme="secondary-bg on-secondary">Login</Button>

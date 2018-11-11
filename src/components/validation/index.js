@@ -1,13 +1,11 @@
 import React from 'react';
 
 class Validation extends React.Component {
+    static defaultProps = {
+    }
     constructor(props) { 
         super(props);
         this.state = {};
-    }
-
-    static defaultProps = {
-
     }
 
     render() {
@@ -21,7 +19,7 @@ class Validation extends React.Component {
             return (
                 <div className="validation_component">
                     {valText.map(function(name, index) {
-                        return <div key={index} className="validation_text">{name.msg.text}</div>;
+                        return <div key={index} className="validation_text">{name.msg}</div>;
                     })}
                 </div>
             );

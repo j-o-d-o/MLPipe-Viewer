@@ -24,7 +24,7 @@ export default (
             <PublicRoute exact path="/login" component={Login} />
             <PublicRoute exact path="/register" component={Register} />
 
-            <PrivateRoute exact path="/" component={Dashboard} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/user/:user" component={User} />
 
             <Route component={Error404} />
