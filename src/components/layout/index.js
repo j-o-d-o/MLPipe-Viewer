@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { snackbarResetError, snackbarResetInfo } from './actions';
@@ -95,4 +96,4 @@ class Layout extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout))
