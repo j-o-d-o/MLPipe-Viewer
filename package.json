@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "express": "^4.16.4",
+    "immutable": "^3.8.2",
+    "path": "^0.12.7",
+    "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "immutable": "^3.8.2",
-    "redux": "^4.0.1",
-    "rmwc": "^3.0.9",
-    "prop-types": "^15.6.2",
+    "react-parallax": "^2.0.1",
     "react-redux": "^5.1.0",
     "react-redux-loading-bar": "^4.1.0",
     "react-router-dom": "^4.3.1",
-    "express": "^4.16.4",
-    "path": "^0.12.7"
+    "redux": "^4.0.1",
+    "rmwc": "^3.0.9"
   },
   "devDependencies": {
     "node-sass": "^4.9.4",

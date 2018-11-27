@@ -1,11 +1,62 @@
+header.is-lander-page {
+    background-color: transparent !important;
+
+    #logo {
+        display: none;
+    }
+
+    .nav-button a {
+        color: white;
+    }
+    
+    #menu-icon {
+        i{
+            color: white;
+        }
+    }
+}
+
 header {
+    background-color: white !important;
+    transition: background-color 0.2s ease-out;
+
+    #menu-icon {
+        display: none;
+        width: 44px;
+        height: 44px;
+        box-shadow: none;
+        background: transparent;
+        @media screen and (max-width: $size-phone) {
+            display: block;
+        }
+        i {
+            color: #333;
+        }
+    }
+
+    #logo {
+        img {
+            width: 55px;
+            margin-top: 5px;
+            @media screen and (max-width: $size-phone) {
+                margin-top: -7px;
+                position: absolute;
+                margin-left: calc(50% - 55px);
+            }
+        }
+    }
+
     .nav-button {
-        border: 1px solid #d2d2d2;
         margin-right: 30px;
         padding: 0px;
+        border-radius: 0px;
+
+        @media screen and (max-width: $size-phone) {
+            display: none;
+        }
 
         a{
-            color: #f2f2f2;
+            color: #333;
             text-decoration: none;
             width: 100%;
             height: 100%;
@@ -13,10 +64,12 @@ header {
             line-height: 33px;
             padding-left: 20px;
             padding-right: 20px;
+            border: 1px solid transparent;
+            transition: border 0.3s ease-in-out;
         }
 
         .active-route {
-            background: #565656;
+            border: 1px solid #333;
         }
     }
 
@@ -25,5 +78,28 @@ header {
         height: 2px;
         background: $mdc-theme-secondary;
         z-index: 10;
+    }
+
+    #drawer{
+        border-right-width: 0px;
+        #drawer-header{
+            background: $mdc-theme-primary;
+            #drawer-title{
+                color: white;
+            }
+        }
+        #drawer-content{
+            a{
+                color: #333;
+                text-decoration: none;
+                display: block;
+                width: 100%;
+                height: 100%;
+                line-height: 38px;
+            }
+            .active-route {
+                color: $mdc-theme-primary;
+            }
+        }
     }
 }

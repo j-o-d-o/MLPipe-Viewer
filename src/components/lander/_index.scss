@@ -1,0 +1,248 @@
+#lander {
+    margin-top: -64px;
+    width: 100%;
+
+    // Because "strength" is set to 300, this ensures the top images is showing
+    .hero {
+        img {
+            top: 150px;
+        }
+    }
+
+    #info-hero {
+        $animation-time: 1.0s;
+        -webkit-animation: fadein $animation-time; /* Safari, Chrome and Opera > 12.1 */
+        -moz-animation: fadein $animation-time; /* Firefox < 16 */
+         -ms-animation: fadein $animation-time; /* Internet Explorer */
+          -o-animation: fadein $animation-time; /* Opera < 12.1 */
+             animation: fadein $animation-time;
+
+        position: absolute;
+        top: 24vh;
+        left: 17%;
+
+        @media screen and (max-width: 950px) {
+            left: 10%;
+        }
+        @media screen and (max-width: $size-phone) {
+            left: 0%;
+            width: 100%;
+        }
+
+        #header1 {
+            background: white;
+            display: inline-block;
+            -webkit-box-shadow: 4px 4px 14px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 4px 4px 14px 0px rgba(0,0,0,0.75);
+            box-shadow: 4px 4px 14px 0px rgba(0,0,0,0.75);
+            border-radius: 3px;
+
+            img {
+                float: left;
+                width: 140px;
+                margin-left: 24px;
+                @media screen and (max-width: $size-tablet) {
+                    width: 118px;
+                }
+                @media screen and (max-width: $size-phone) {
+                    width: 88px;
+                    margin-top: 5px;
+                }
+            }
+            h1{
+                @media screen and (max-width: $size-tablet) {
+                    font-size: 50px;
+                }
+                @media screen and (max-width: $size-phone) {
+                    padding: 27px;
+                    font-size: 38px;
+                }
+                border-radius: 3px;
+                float: left;
+                color: #332e2e;
+                font-size: 70px;
+                padding: 18px;
+                padding-top: 0px;
+                padding-bottom: 0px;
+                padding: 31px;
+                margin: 0px;
+                background: white;
+            }
+        }
+        #header2 {
+            h2{
+                -webkit-box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.75);
+                -moz-box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.75);
+                box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.75);
+                border-radius: 3px;
+
+                @media screen and (max-width: $size-tablet) {
+                    font-size: 20px;
+                    margin-left: 56px;
+                }
+                @media screen and (max-width: $size-phone) {
+                    font-size: 16px;
+                    position: absolute;
+                    right: 0px;
+                    min-width: 260px;
+                }
+                color: white;
+                color: #332e2e;
+                background: white;
+                margin: 0px;
+                padding: 20px;
+                margin-left: 110px;
+                margin-top: 14px;
+                font-size: 32px;
+            }
+        }
+    }
+    #explore-button-wrapper {
+        position: absolute;
+        width: 100%;
+        margin-top: 70vh;
+        .explore-button{
+            margin-left: auto;
+            margin-right: auto;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            margin-top: 55px;
+            font-size: 20px;
+            padding: 6px;
+            border-radius: 39px;
+            background: #ffffff1c;
+            border: 1px solid #ffffff11;
+            cursor: pointer;
+
+            -webkit-transition: .3s;
+            -webkit-animation: pulse infinite 2s;
+            animation: pulse infinite 2s;
+
+            i {
+                line-height: 40px;
+                color: white;
+            }
+        }
+    }
+
+    @keyframes fadein {
+        from { opacity: 0; top: 26vh; }
+        to   { opacity: 1; }
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+        }
+        70% {
+            box-shadow: 0 0 0 21px rgba(255, 255, 255, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        }
+    }
+
+    .lander-section{
+        min-height: 300px;
+        background: white;
+        display: flex;
+        width: 100%;
+        overflow: auto;
+
+        #text{
+            max-width: 600px;
+        }
+    }
+
+    #section-1{
+        padding-top: 80px;
+        @media screen and (max-width: 1450px) {
+            padding-top: 30px;
+        }
+        @media screen and (max-width: $size-tablet) {
+            flex-direction: column;
+        }
+        @media screen and (max-width: $size-phone) {
+            padding-top: 0px;
+        }
+        #info{
+            margin-top: 35px;
+            flex: 50%;
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+            #content {
+                padding: 30px;
+                @media screen and (max-width: $size-phone) {
+                    padding: 15px;
+                }
+                h2 {
+                    color: #333;
+                    font-size: 55px;
+                    margin-bottom: 0px;
+                    text-transform: uppercase;
+                    @media screen and (max-width: 1450px) {
+                        font-size: 41px;
+                        margin-top: 0px;
+                    }
+                    @media screen and (max-width: $size-phone) {
+                        font-size: 31px;
+                    }
+                }
+                h3 {
+                    color: $mdc-theme-primary;
+                    font-size: 30px;
+                    margin-top: 5px;
+                    text-transform: uppercase;
+                    @media screen and (max-width: 1450px) {
+                        font-size: 27px;
+                    }
+                    @media screen and (max-width: $size-phone) {
+                        font-size: 20px;
+                    }
+                }
+                #text {
+                    font-size: 20px;
+                    margin-left: 40px;
+                    @media screen and (max-width: 1450px) {
+                        font-size: 18px;
+                    }
+                    @media screen and (max-width: $size-phone) {
+                        font-size: 16px;
+                        margin-left: 30px;
+                    }
+                }
+            }
+        }
+        #img-wrapper{
+            flex: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            @media screen and (max-width: 1450px) {
+                flex: 30%;
+            }
+            img {
+                @media screen and (max-width: 1450px) {
+                    width: 500px;
+                    margin-top: 80px;
+                }
+                @media screen and (max-width: 1050px) {
+                    width: 312px;
+                    margin-top: 129px;
+                }
+                @media screen and (max-width: $size-tablet) {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+
+    .parallalx-section {
+        height: 310px;
+        @media screen and (max-width: $size-tablet){
+            height: 190px;
+        }
+    }
+}

@@ -1,5 +1,10 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
+//import AuthApi from './api';
+//import { login } from './actions';
 
 class User extends React.Component {
     render() {
@@ -11,4 +16,4 @@ class User extends React.Component {
     }
 }
 
-export default User
+export default User;

@@ -2,12 +2,10 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import AuthApi from './api';
 import { login } from './actions';
 import { snackbarError } from 'components/layout/actions';
-import * as authUtil from 'utils/auth.util';
 
 import Validation from 'components/validation';
 import { TextField } from '@rmwc/textfield';
@@ -75,7 +73,7 @@ class Login extends React.Component {
                     <Validation data={this.state.validation} />
                     <TextField label="Username / Email" name="email" onChange={this.handleChange} required={true}/>
                     <TextField label="Password" type="Password" name="password" onChange={this.handleChange} required={true}/>
-                    <Button disabled={this.state.sending} type="submit" id="login-btn" theme="secondary-bg on-secondary">Login</Button>
+                    <Button raised disabled={this.state.sending} type="submit" id="login-btn">Login</Button>
                 </form>
             </div>
         );
