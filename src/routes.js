@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom'
 import PrivateRoute from 'components/routes/privateRoute'; 
 import PublicRoute from 'components/routes/publicRoute'; 
+import ScrollToTop from 'components/scrollToTop';
 
 // Layouts 
 import Layout from 'components/layout';
@@ -18,16 +19,18 @@ import Error404 from 'components/errors/404';
 
 export default (
     <Layout>
-        <Switch>
-            <Route exact path="/" component={Lander} />
+        <ScrollToTop>
+            <Switch>
+                <Route exact path="/" component={Lander} />
 
-            <PublicRoute exact path="/login" component={Login} />
-            <PublicRoute exact path="/register" component={Register} />
+                <PublicRoute exact path="/login" component={Login} />
+                <PublicRoute exact path="/register" component={Register} />
 
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute path="/user/:user" component={User} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute path="/user/:user" component={User} />
 
-            <Route component={Error404} />
-        </Switch>
+                <Route component={Error404} />
+            </Switch>
+        </ScrollToTop>
     </Layout>
 );
