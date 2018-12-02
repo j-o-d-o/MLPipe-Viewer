@@ -8,6 +8,11 @@ export function login(user) {
   return {type: types.LOGIN, user};
 }
 
+export function logout() {  
+  localStorage.deleteValue(CONFIG.localStorageCredentials);
+  return {type: types.LOGOUT};
+}
+
 export function updateLogged(user){
   return { type: types.UPDATE_LOGGED, user };
 }

@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import LoadingBar from 'react-redux-loading-bar';
 
 import * as authUtil from 'utils/auth.util';
-import * as authActions from 'components/auth/actions';
+import * as authActions from 'redux/actions/auth';
 
 import {
     TopAppBar,
@@ -47,7 +47,6 @@ class Header extends React.Component {
             sideMenuOpen: false
         };
 
-        this.logout = this.logout.bind(this);
         this.checkScroll = this.checkScroll.bind(this);
     }
 
@@ -72,11 +71,6 @@ class Header extends React.Component {
         else if(scroll.y > 64 && this.state.scrollAtTop){
             this.setState({ scrollAtTop: false });
         }
-    }
-
-    logout(e) {
-        this.props.actions.logout();
-        window.location.href = "/";
     }
 
     render() {
@@ -153,7 +147,7 @@ class Header extends React.Component {
                     <TopAppBarSection alignStart>
                         <TopAppBarTitle>
                             <NavLink id="logo" style={{"textDecoration": "none", "color": "white"}} exact to="/">
-                                <img src="images/icon.svg" alt="icon" />
+                                <img src="../images/icon.svg" alt="icon" />
                             </NavLink>
                             <Fab id="menu-icon" onClick={() => this.setState({sideMenuOpen: true})} icon="menu" />
                         </TopAppBarTitle>

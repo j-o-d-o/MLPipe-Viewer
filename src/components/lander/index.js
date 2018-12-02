@@ -5,13 +5,7 @@ import { Button } from '@rmwc/button';
 
 
 class Lander extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.scrollToEndOfHero = this.scrollToEndOfHero.bind(this);
-    }
-
-    scrollToEndOfHero() {
+    scrollToEndOfHero = () => {
         this.heroEnd.scrollIntoView({block: "start", behavior: "smooth"});
     }
 

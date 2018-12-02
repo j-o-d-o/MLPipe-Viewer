@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 
 class Validation extends React.Component {
     static defaultProps = {
+        data: PropTypes.shape({
+            status: PropTypes.number,
+            json: PropTypes.object
+        }).isRequired,
     }
     constructor(props) { 
         super(props);
@@ -15,7 +21,7 @@ class Validation extends React.Component {
             this.props.data.json !== undefined &&
             this.props.data.status === 400){
 
-            var valText = this.props.data.json.data;
+            const valText = this.props.data.json.data;
             return (
                 <div className="validation_component">
                     {valText.map(function(name, index) {

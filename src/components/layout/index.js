@@ -1,30 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { snackbarResetError, snackbarResetInfo } from './actions';
+import { snackbarResetError, snackbarResetInfo } from 'redux/actions/snackbar';
 import Header from 'components/header';
 import Footer from 'components/footer';
 import { Snackbar } from '@rmwc/snackbar';
 
 
-function mapStateToProps(state) {
-    return {
-        error_msg: state.snackbar.get('error_msg'),
-        info_msg: state.snackbar.get('info_msg'),
-    };
-}
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({snackbarResetError, snackbarResetInfo}, dispatch),
-    };
-}
-
 class Layout extends React.Component {
     static propTypes = {
         error_msg: PropTypes.string.isRequired,
         info_msg: PropTypes.string.isRequired,
+        snackbarResetError: PropTypes.func.isRequired,
+        snackbarResetInfo: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -58,12 +47,12 @@ class Layout extends React.Component {
 
     onHideError() {
         this.setState({ showErrorSnackbar: false });
-        this.props.actions.snackbarResetError();
+        this.props.snackbarResetError();
     }
 
     onHideInfo() {
         this.setState({ showInfoSnackbar: false });
-        this.props.actions.snackbarResetInfo();
+        this.props.snackbarResetInfo();
     }
 
     render(){
@@ -98,5 +87,11 @@ class Layout extends React.Component {
         ); 
     }
 }
+
+const mapStateToProps = (state) => ({ 
+    error_msg: state.snackbar.get('error_msg'),
+    info_msg: state.snackbar.get('info_msg') 
+});
+const mapDispatchToProps = {snackbarResetError, snackbarResetInfo};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout))
