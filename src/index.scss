@@ -9,6 +9,7 @@
 @import 'scss/mixins';
 @import 'scss/overrides';
 @import 'scss/main';
+@import 'scss/placeholder';
 
 // Component specific SCSS files
 @import 'components/layout/index';
@@ -18,3 +19,4 @@
 @import 'components/validation/index';
 @import 'components/lander/index';
 @import 'components/footer/index';
+@import 'components/user/index';

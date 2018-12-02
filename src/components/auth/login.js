@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AuthApi from './api';
+import AuthApi from 'apis/auth';
 import { login } from 'redux/actions/auth';
 import { snackbarError } from 'redux/actions/snackbar';
 
@@ -21,7 +21,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         // This is a guard to not execute async code after component is unmounted
-        this._mountedGuard = true;
+        this._mountGuard = true;
 
         this.state = {
             credentials: { email: '', password: '' },
@@ -29,15 +29,15 @@ class Login extends React.Component {
         }
     }
 
-    componentWillMount = () => this._mountedGuard = false;
-    componentWillUnmount = () => this._mountedGuard = true;
+    componentWillMount = () => this._mountGuard = false;
+    componentWillUnmount = () => this._mountGuard = true;
 
     submitLogin = async (e) => {
         e.preventDefault();
 
         this.setState({ sending: true });
         const res = await AuthApi.login(this.state.credentials);
-        if(this._mountedGuard) return;
+        if(this._mountGuard) return;
 
         this.setState({ sending: false });
         if (res.status === 200) {

@@ -1,6 +1,5 @@
 import { CONFIG } from 'config';
 
-
 class AuthApi {
     static login = async (credentials) => {
         try {

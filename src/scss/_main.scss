@@ -41,9 +41,16 @@ h1, h2, h3, h4{
     justify-content: center;
     background: white;
     width: 100%;
+    max-width: 1200px;
     padding-top: 35px;
     padding-bottom: 35px;
     margin-top: 40px;
     flex-direction: column;
     position: relative;
+
+    @media screen and (max-width: $size-tablet){
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-top: 20px;
+    }
 }
