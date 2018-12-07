@@ -84,7 +84,10 @@ class Header extends React.Component {
             loggedUser = authUtil.getUser();
             TopAppBarSectionContent = (
                 <TopAppBarSection alignEnd>
-                    <Button className="nav-button" theme="on-primary">
+                    <Button className="nav-button">
+                        <NavLink exact to="/train" activeClassName="active-route">Train</NavLink>
+                    </Button>
+                    <Button className="nav-button">
                         <NavLink exact to="/dashboard" activeClassName="active-route">Dashboard</NavLink>
                     </Button>
                     <Button className="nav-button">
@@ -107,13 +110,17 @@ class Header extends React.Component {
                         <NavLink exact to={"/user/" + loggedUser._id} activeClassName="active-route"
                             onClick={() => this.setState({sideMenuOpen: false})}>Profile</NavLink>
                     </ListItem>
+                    <ListItem>
+                        <NavLink exact to="/train" activeClassName="active-route"
+                            onClick={() => this.setState({sideMenuOpen: false})}>Train</NavLink>
+                    </ListItem>
                 </List>
             );
         }
         else {
             TopAppBarSectionContent = (
                 <TopAppBarSection alignEnd>
-                    <Button className="nav-button" theme="on-primary">
+                    <Button className="nav-button">
                         <NavLink exact to="/register" activeClassName="active-route">Register</NavLink>
                     </Button>
                     <Button className="nav-button">

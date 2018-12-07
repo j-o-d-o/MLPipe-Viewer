@@ -10,9 +10,10 @@ import Layout from 'components/layout';
 // Main components
 import Lander from 'components/lander';
 import User from 'components/user';
-import Login from 'components/auth/login.js';
-import Register from 'components/auth/register';
+import Login from 'components/login';
+import Register from 'components/register';
 import Dashboard from 'components/dashboard';
+import Trainer from 'components/trainer';
 // Error Pages
 import Error404 from 'components/errors/404';
 
@@ -28,6 +29,8 @@ export default (
 
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute path="/user/:user" component={User} />
+                <PrivateRoute exact path="/train" component={Trainer} />
+
 
                 <Route component={Error404} />
             </Switch>
