@@ -85,7 +85,7 @@ class Header extends React.Component {
             TopAppBarSectionContent = (
                 <TopAppBarSection alignEnd>
                     <Button className="nav-button">
-                        <NavLink exact to="/train" activeClassName="active-route">Train</NavLink>
+                        <NavLink exact to="/jobs" activeClassName="active-route">Jobs</NavLink>
                     </Button>
                     <Button className="nav-button">
                         <NavLink exact to="/dashboard" activeClassName="active-route">Dashboard</NavLink>
@@ -111,8 +111,8 @@ class Header extends React.Component {
                             onClick={() => this.setState({sideMenuOpen: false})}>Profile</NavLink>
                     </ListItem>
                     <ListItem>
-                        <NavLink exact to="/train" activeClassName="active-route"
-                            onClick={() => this.setState({sideMenuOpen: false})}>Train</NavLink>
+                        <NavLink exact to="/jobs" activeClassName="active-route"
+                            onClick={() => this.setState({sideMenuOpen: false})}>Jobs</NavLink>
                     </ListItem>
                 </List>
             );

@@ -1,9 +1,9 @@
-// variables must be first import inorder to possibly
-// override variables from librarys such as MDC
+// variables must be first import
 @import 'scss/variables';
 
 // MDC SCSS files
 @import 'material-components-web/material-components-web';
+@import '@rmwc/data-table/data-table';
 
 // SCSS files which are not component specific
 @import 'scss/mixins';
@@ -20,3 +20,6 @@
 @import 'components/lander/index';
 @import 'components/footer/index';
 @import 'components/user/index';
+@import 'components/jobs/index';
+@import 'components/jobs/createJob.dialog';
+@import 'components/dashboard/index';

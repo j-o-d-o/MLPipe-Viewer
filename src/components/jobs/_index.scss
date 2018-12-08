@@ -1,0 +1,35 @@
+#jobs-page{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    overflow-y: visible;
+    #jobs-content{
+        width: 100%;
+
+        #toolbar-row{
+            background: #444;
+        }
+
+        #jobs-table{
+            display: inline-block;
+            vertical-align: top;
+            padding-bottom: 5px;
+            width: 100%;
+            overflow-y: visible;
+            border: 0px solid black;
+            #jobs-table--content{
+                width: 100%;
+            }
+        }
+
+        #create-job-btn {
+            position: absolute;
+            right: 20px;
+        }
+
+        .open-menu{
+            border-radius: 300px;
+            cursor: pointer;
+            padding: 4px;
+        }
+    }
+}

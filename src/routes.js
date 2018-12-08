@@ -13,7 +13,7 @@ import User from 'components/user';
 import Login from 'components/login';
 import Register from 'components/register';
 import Dashboard from 'components/dashboard';
-import Trainer from 'components/trainer';
+import Jobs from 'components/jobs';
 // Error Pages
 import Error404 from 'components/errors/404';
 
@@ -29,7 +29,7 @@ export default (
 
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute path="/user/:user" component={User} />
-                <PrivateRoute exact path="/train" component={Trainer} />
+                <PrivateRoute exact path="/jobs" component={Jobs} />
 
 
                 <Route component={Error404} />

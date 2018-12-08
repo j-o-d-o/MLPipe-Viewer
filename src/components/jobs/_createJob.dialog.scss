@@ -1,0 +1,13 @@
+#create-job-dialog{
+    @include mdc-dialog-max-width(760px, $mdc-dialog-margin);
+
+    #dialog-content{
+        padding: 0px;
+    }
+
+    #create-job-form {
+        width: 100%;
+        max-width: 800px;
+        height: 300px;
+    }
+}

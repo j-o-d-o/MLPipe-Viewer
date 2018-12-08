@@ -1,2 +1,20 @@
 // Ideally this file should be empty, but sometimes styles from  other
 // modules (mainly MDC) need to be overriden e.g. for for quick fixes
+// Please document your fixes well, that way it is easier to know if they are still needed on updates
+
+// Changing the dialog header styles to be colored in primary color
+.mdc-dialog__title {
+    background: $mdc-theme-primary;
+    color: white !important;
+    border-radius: inherit;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+// Otherwise the width of dialogs does not use respect the width of its content
+.mdc-dialog__container {
+    width: 100%;
+    .mdc-dialog__surface{
+        width: 100%;
+    }
+}

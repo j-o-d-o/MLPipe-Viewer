@@ -54,33 +54,16 @@ class User extends React.Component {
     }
 
     render() {
-        let content;
-        if (this.state.user === null) {
-            content = (
-                <div className="ph-item">
-                    <div className="ph-col-6">
-                        <div className="ph-row">
-                            <div className="ph-col-6"></div>
-                            <div className="ph-col-6"></div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        else {
-            content = (
-                <div>
-                    <div>Email: {this.state.user.email}</div>
-                    <div>Name: {this.state.user.name}</div>
-                </div>
-            );
-        }
+        const user = this.state.user;
 
         return (
             <div id="user-page" className="flex-content">
                 <div id="user-content">
                     <h1>My Profile</h1>
-                    {content}
+                    <div>
+                        <div>Email: {user != null ? user.email: ""}</div>
+                        <div>Name: {user != null ? user.name : ""}</div>
+                    </div>
                     <Button type="button" onClick={this.logout} style={{marginTop: "30px"}}>Logout</Button>
                 </div>
             </div>
