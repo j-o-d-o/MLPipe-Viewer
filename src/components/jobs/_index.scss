@@ -18,8 +18,14 @@
             width: 100%;
             overflow-y: visible;
             border: 0px solid black;
+            
             #jobs-table--content{
                 width: 100%;
+            }
+
+            .job-details-link {
+                //text-decoration: none;
+                color: #444;
             }
         }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import moment from 'moment';
 import { snackbarError } from 'redux/actions/snackbar';
@@ -63,16 +64,18 @@ class Jobs extends React.Component {
 
     render() {
         const jobs = this.state.jobs;
-
+        const typeTable = { 0: "Local", 1: "AWS"};
         let tableRows = [];
         for(let i = 0; i < jobs.length; i++ ){
             tableRows.push((
                 <DataTableBody key={"job-" + jobs[i]._id}>
                     <DataTableRow>
-                        <DataTableCell alignEnd>{jobs[i].is_finished}</DataTableCell>
-                        <DataTableCell>{jobs[i].name}</DataTableCell>
-                        <DataTableCell>{jobs[i].creator}</DataTableCell>
-                        <DataTableCell alignEnd>{jobs[i].type}</DataTableCell>
+                        {/* <DataTableCell alignEnd>{jobs[i].is_finished}</DataTableCell> */}
+                        <DataTableCell>
+                            <NavLink className="job-details-link" exact to={"/job/" + jobs[i]._id}>{jobs[i].name}</NavLink>
+                        </DataTableCell>
+                        <DataTableCell>{jobs[i].creator.name}</DataTableCell>
+                        <DataTableCell alignEnd>{typeTable[jobs[i].type]}</DataTableCell>
                         <DataTableCell alignEnd>{moment(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
                         <DataTableCell alignMiddle>
                             <MenuSurfaceAnchor>
@@ -82,9 +85,8 @@ class Jobs extends React.Component {
                                     open={this.state.openMenuByJobId === jobs[i]._id}
                                     onClose={evt => this.setState({openMenuByJobId: null})}
                                 >
-                                    <MenuItem onClick={evt => alert("Not implemented")}>View</MenuItem>
-                                    <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
                                     <MenuItem onClick={evt => alert("Not implemented")}>Edit</MenuItem>
+                                    <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
                                 </Menu>
                                 <Ripple primary>
                                     <i className="material-icons open-menu" onClick={evt => this.setState({openMenuByJobId: jobs[i]._id})}>more_vert</i>
@@ -110,7 +112,7 @@ class Jobs extends React.Component {
                         <DataTableContent id="jobs-table--content">
                             <DataTableHead>
                                 <DataTableRow>
-                                    <DataTableHeadCell>Status</DataTableHeadCell>
+                                    {/* <DataTableHeadCell>Status</DataTableHeadCell> */}
                                     <DataTableHeadCell>Name</DataTableHeadCell>
                                     <DataTableHeadCell>User</DataTableHeadCell>
                                     <DataTableHeadCell alignEnd>Type</DataTableHeadCell>

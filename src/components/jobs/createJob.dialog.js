@@ -56,7 +56,6 @@ class CreateJobDialog extends React.Component {
 
         this.setState({ sending: false });
         if (res.status === 200) {
-            console.log(res);
             // Redirect to jobs detail page
             this.props.history.push("/job/" + res.json._id);
         }

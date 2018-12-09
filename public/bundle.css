@@ -7013,6 +7013,9 @@ a.mdc-list-item {
   .mdc-dialog__container .mdc-dialog__surface {
     width: 100%; }
 
+.mdc-snackbar {
+  z-index: 99; }
+
 html, #root {
   height: 100%;
   padding: 0px;
@@ -7692,6 +7695,8 @@ header {
       border: 0px solid black; }
       #jobs-page #jobs-content #jobs-table #jobs-table--content {
         width: 100%; }
+      #jobs-page #jobs-content #jobs-table .job-details-link {
+        color: #444; }
     #jobs-page #jobs-content #create-job-btn {
       position: absolute;
       right: 20px; }
@@ -7717,5 +7722,47 @@ header {
   height: 300px;
   padding: 35px;
   box-sizing: border-box; }
+
+#job-details-page {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  overflow-y: visible;
+  margin-bottom: 50px; }
+  #job-details-page #job-details-content {
+    width: 100%; }
+    #job-details-page #job-details-content #toolbar-row {
+      background: #444; }
+    #job-details-page #job-details-content #job-details-wrapper {
+      min-height: 350px; }
+    #job-details-page #job-details-content #action-menu {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px; }
+      #job-details-page #job-details-content #action-menu .action-btn {
+        margin-right: 20px; }
+
+@media (max-width: 712px) {
+  #get-job-token .mdc-dialog__container {
+    max-width: calc(100vw - 32px); } }
+
+@media (min-width: 712px) {
+  #get-job-token .mdc-dialog__container {
+    max-width: 680px; } }
+
+#get-job-token #dialog-content {
+  width: 100%;
+  max-width: 800px;
+  height: 200px;
+  padding: 35px;
+  box-sizing: border-box; }
+  #get-job-token #dialog-content #token-value {
+    font-family: monospace;
+    color: black;
+    background: #efefef;
+    padding: 17px;
+    font-size: 12px;
+    word-wrap: break-word; }
+  #get-job-token #dialog-content #token-info {
+    margin-top: 20px; }
 
 /*# sourceMappingURL=bundle.css.map */

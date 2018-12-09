@@ -14,6 +14,7 @@ import Login from 'components/login';
 import Register from 'components/register';
 import Dashboard from 'components/dashboard';
 import Jobs from 'components/jobs';
+import JobDetails from 'components/jobDetails';
 // Error Pages
 import Error404 from 'components/errors/404';
 
@@ -29,8 +30,8 @@ export default (
 
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute path="/user/:user" component={User} />
-                <PrivateRoute exact path="/jobs" component={Jobs} />
-
+                <PrivateRoute exact path="/job" component={Jobs} />
+                <PrivateRoute path="/job/:job" component={JobDetails} />
 
                 <Route component={Error404} />
             </Switch>

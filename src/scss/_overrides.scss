@@ -18,3 +18,8 @@
         width: 100%;
     }
 }
+
+// To also show over dialog overlays
+.mdc-snackbar{
+    z-index: 99;
+}

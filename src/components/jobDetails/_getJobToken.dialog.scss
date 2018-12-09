@@ -1,0 +1,24 @@
+#get-job-token{
+    @include mdc-dialog-max-width(680px, $mdc-dialog-margin);
+
+    #dialog-content{
+        width: 100%;
+        max-width: 800px;
+        height: 200px;
+        padding: 35px;
+        box-sizing: border-box;
+
+        #token-value{
+            font-family: monospace;
+            color: black;
+            background: #efefef;
+            padding: 17px;
+            font-size: 12px;
+            word-wrap: break-word;
+        }
+
+        #token-info{
+            margin-top: 20px;
+        }
+    }
+}
