@@ -7677,7 +7677,8 @@ header {
 #jobs-page {
   padding-top: 0px;
   padding-bottom: 0px;
-  overflow-y: visible; }
+  overflow-y: visible;
+  margin-bottom: 50px; }
   #jobs-page #jobs-content {
     width: 100%; }
     #jobs-page #jobs-content #toolbar-row {
@@ -7710,9 +7711,11 @@ header {
 #create-job-dialog #dialog-content {
   padding: 0px; }
 
-#create-job-dialog #create-job-form {
+#create-job-dialog #tab-content {
   width: 100%;
   max-width: 800px;
-  height: 300px; }
+  height: 300px;
+  padding: 35px;
+  box-sizing: border-box; }
 
 /*# sourceMappingURL=bundle.css.map */

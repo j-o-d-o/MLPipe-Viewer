@@ -61,10 +61,6 @@ class Jobs extends React.Component {
         this.props.hideLoading();
     }
 
-    componentDidMount() {
-        this._createJobDialog.show();
-    }
-
     render() {
         const jobs = this.state.jobs;
 
@@ -127,7 +123,10 @@ class Jobs extends React.Component {
                     </DataTable>
                 </div>
 
-                <CreateJobDialog provideCtrl={ctrl => this._createJobDialog = ctrl} />
+                <CreateJobDialog
+                    history={this.props.history}
+                    provider={provide => this._createJobDialog = provide}
+                />
             </div>
         );
     }

@@ -15,7 +15,8 @@ class Validation extends React.Component {
     }
 
     render() {
-        if( this.props.data !== undefined && 
+        if( this.props.data !== null &&
+            this.props.data !== undefined && 
             this.props.data !== "" &&
             this.props.data.status !== undefined &&
             this.props.data.json !== undefined &&

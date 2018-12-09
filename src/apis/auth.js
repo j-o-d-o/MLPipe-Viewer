@@ -3,7 +3,7 @@ import { CONFIG } from 'config';
 class AuthApi {
     static login = async (credentials) => {
         try {
-            let data = JSON.stringify(credentials);
+            const data = JSON.stringify(credentials);
             const res = await fetch(CONFIG.apiUrl  + 'user/login',{
                 method: "POST",
                 body: data,
