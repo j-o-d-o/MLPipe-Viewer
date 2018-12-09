@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 //import moment from 'moment';
+import {Line} from 'react-chartjs-2';
 import { snackbarError } from 'redux/actions/snackbar';
 import JobApi from 'apis/job';
 import GetJobToken from './getJobToken.dialog';
@@ -59,9 +60,15 @@ class Jobs extends React.Component {
         else if(job.experiments.length > 0) {
             // For now, assuming there is a 1:1 mapping for experiments and jobs
             // const experiment = job.experiments[0];
+            const data = {
+                datasets: [{
+                    label: 'My First dataset',
+                    data: [1, 2, 3, 4, 5, 6]
+                }]
+              };
             return (
                 <div id="job-details-wrapper">
-                    Show experiment details
+                    <Line data={data} />
                 </div>
             )
         }
