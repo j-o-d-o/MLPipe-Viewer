@@ -1,5 +1,9 @@
+@import "@material/select/mdc-select";
 // variables must be first import
 @import 'scss/variables';
+
+// frappe-charts
+@import 'frappe-charts/dist/frappe-charts.min';
 
 // MDC SCSS files
 @import 'material-components-web/material-components-web';
@@ -25,3 +29,4 @@
 @import 'components/jobs/createJob.dialog';
 @import 'components/jobDetails/index';
 @import 'components/jobDetails/getJobToken.dialog';
+@import 'components/jobDetails/displayLog';

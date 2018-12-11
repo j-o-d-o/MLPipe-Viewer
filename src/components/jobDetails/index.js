@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 import { connect } from 'react-redux';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
-//import moment from 'moment';
-import {Line} from 'react-chartjs-2';
 import { snackbarError } from 'redux/actions/snackbar';
 import JobApi from 'apis/job';
 import GetJobToken from './getJobToken.dialog';
+import PlotMetric from './plotMetric';
+import DisplayLog from './displayLog';
 import { Button } from '@rmwc/button';
+import { Select } from '@rmwc/select';
 import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
 
 
@@ -24,6 +26,7 @@ class Jobs extends React.Component {
 
         this.state = {
             job: null,
+            showMetric: null,
         };
     }
 
@@ -36,7 +39,19 @@ class Jobs extends React.Component {
 
         this.props.hideLoading();
         if (res.status === 200) {
-            this.setState({ job: res.json });
+            // Chose first metric as default value for showMetric
+            let showMetric = "";
+            if (res.json.experiments.length > 0) {
+                const experiment = res.json.experiments[0]; // assuming a 1:1 mapping
+                const objectKeys = Object.keys(experiment.metrics.training);
+                if(objectKeys.length > 0) {
+                    showMetric = objectKeys[0];
+                }
+            }
+            this.setState({ 
+                job: res.json,
+                showMetric,
+            });
         }
         else {
             console.log(res);
@@ -51,24 +66,41 @@ class Jobs extends React.Component {
     buildContent = () => {
         const job = this.state.job;
         if(job === null) {
-            return (
-                <div id="job-details-wrapper">
-                    Loading...
-                </div>
-            );
+            return <div id="job-details-wrapper"></div>;
         }
         else if(job.experiments.length > 0) {
             // For now, assuming there is a 1:1 mapping for experiments and jobs
-            // const experiment = job.experiments[0];
-            const data = {
-                datasets: [{
-                    label: 'My First dataset',
-                    data: [1, 2, 3, 4, 5, 6]
-                }]
-              };
+            // TODO: extend this for AWS jobs
+            const exp = job.experiments[0];
+            const metricOptions = Object.keys(exp.metrics.training);
+            const typeTable = { 0: "Local", 1: "AWS"};
             return (
                 <div id="job-details-wrapper">
-                    <Line data={data} />
+                    <div id="job-details-fields">
+                        <div><span className="field-info">Status:</span> Trained</div>
+                        <div><span className="field-info">Type:</span> {typeTable[job.type]}</div>
+                        <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
+                        <div><span className="field-info">Training started:</span> {dayjs(exp.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
+                        <div><span className="field-info">Creator:</span> {job.creator.name}</div>
+                    </div>
+                    {/* TODO: job.setup_log */}
+                    <DisplayLog log={exp.log} name="Experiment Log" />
+                    {metricOptions.length > 0 ? 
+                        <div id="metrics-wrapper">
+                            <Select
+                                id="select-metric"
+                                label="Select Metric"
+                                onChange={evt => this.setState({ showMetric: evt.target.value })}
+                                value={this.state.showMetric}
+                                options={metricOptions}
+                            />
+                            <PlotMetric validationData={[1, 2, 3]} trainingData={[2,3,4]} name={"TEST"}/>
+                        </div>
+                    :
+                        <div id="metrics-wrapper">
+                            No Metrics available
+                        </div>
+                    }
                 </div>
             )
         }

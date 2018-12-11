@@ -90,7 +90,7 @@ class GetJobToken extends React.Component {
                     </div>
                     {this.state.token !== null &&
                         <div id="token-info">
-                            Copy the token to your config.ini file
+                            Copy the token to your config.ini file to they 'job_token' key
                         </div>
                     }
                 </DialogContent>

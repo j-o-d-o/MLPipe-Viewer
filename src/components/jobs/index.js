@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { snackbarError } from 'redux/actions/snackbar';
 import JobApi from 'apis/job';
 import { Button } from '@rmwc/button';
@@ -76,7 +76,7 @@ class Jobs extends React.Component {
                         </DataTableCell>
                         <DataTableCell>{jobs[i].creator.name}</DataTableCell>
                         <DataTableCell alignEnd>{typeTable[jobs[i].type]}</DataTableCell>
-                        <DataTableCell alignEnd>{moment(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
+                        <DataTableCell alignEnd>{dayjs(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
                         <DataTableCell alignMiddle>
                             <MenuSurfaceAnchor>
                                 <Menu

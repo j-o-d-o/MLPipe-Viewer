@@ -1,0 +1,23 @@
+.display-log-wrapper{
+    padding: 20px;
+    padding-left: 50px;
+
+    h4{
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+
+    .log {
+        white-space: pre-line;
+        background: #f4f4f4;
+        padding: 14px;
+        overflow: auto;
+        font-family: monospace;
+        font-size: 12px;
+        border: 1px solid #dedede;
+    }
+
+    .toggle-log-btn{
+        margin-top: 5px;
+    }
+}
