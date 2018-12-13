@@ -28,7 +28,7 @@
     "postcss": "^7.0.6"
   },
   "scripts": {
-    "post-css": "postcss public/bundle.css -o public/index.css && rm -rf public/bundle.css public/bundle.css.map public/index.css.map",
+    "post-css": "postcss public/bundle.css -o public/index.css --no-map && rm -rf public/bundle.css public/bundle.css.map public/index.css.map",
     "watch-css": "postcss public/bundle.css -o public/index.css -w",
     "build-sass": "node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css --output-style compressed",
     "build-css": "npm run build-sass && npm run post-css",

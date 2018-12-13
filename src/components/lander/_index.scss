@@ -43,12 +43,7 @@ $break-lander-text-1: 1200px;
     }
 
     #info-hero {
-        $animation-time: 1.0s;
-        -webkit-animation: fadein $animation-time; /* Safari, Chrome and Opera > 12.1 */
-        -moz-animation: fadein $animation-time; /* Firefox < 16 */
-         -ms-animation: fadein $animation-time; /* Internet Explorer */
-          -o-animation: fadein $animation-time; /* Opera < 12.1 */
-             animation: fadein $animation-time;
+        animation: fadein 1.0s;
 
         position: absolute;
         top: 24vh;
@@ -65,8 +60,6 @@ $break-lander-text-1: 1200px;
         #header1 {
             background: white;
             display: inline-block;
-            -webkit-box-shadow: 4px 4px 14px 0px rgba(0,0,0,0.75);
-            -moz-box-shadow: 4px 4px 14px 0px rgba(0,0,0,0.75);
             box-shadow: 4px 4px 14px 0px rgba(0,0,0,0.75);
             border-radius: 3px;
 
