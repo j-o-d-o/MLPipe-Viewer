@@ -30,9 +30,9 @@
   "scripts": {
     "post-css": "postcss public/bundle.css -o public/index.css && rm -rf public/bundle.css public/bundle.css.map public/index.css.map",
     "watch-css": "postcss public/bundle.css -o public/index.css -w",
-    "build-sass": "node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css --output-style compressed --source-map false",
+    "build-sass": "node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css --output-style compressed",
     "build-css": "npm run build-sass && npm run post-css",
-    "watch-sass": "npm run build-css && node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css -w -r --source-map false",
+    "watch-sass": "npm run build-css && node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css -w -r",
     "start-js": "react-scripts start",
     "start": "npm-run-all --parallel start-js watch-sass watch-css",
     "build-js": "react-scripts build",
