@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Chart } from "frappe-charts/dist/frappe-charts.esm.js";
+import Chart from 'chart.js';
 
 
 class PlotMetric extends React.Component {
@@ -8,10 +8,6 @@ class PlotMetric extends React.Component {
         validationData: PropTypes.array.isRequired,
         trainingData: PropTypes.array.isRequired,
         name: PropTypes.string.isRequired,
-        height: PropTypes.number,
-    }
-    static defaultProps = {
-        height: 600,
     }
 
     constructor(props) {
@@ -27,52 +23,79 @@ class PlotMetric extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.name !== nextProps.name ||
-            this.props.height !== nextProps.height) {
-            this.props = nextProps;
-            this.createChart();
-        }
-        else {
-            console.log("ONLY UPDATE!");
-            const data = this.createData();
-            this._chart.update(data);
-        }
+        this.props = nextProps;
+        const data = this.createData();
+        this._chart.data = data;
+        this._chart.update();
     }
 
     createData = () => {
+        let labels = [];
+        let trainValues = [];
+        let valValues = [];
+        const td = this.props.trainingData;
+        const vd = this.props.validationData;
+        let valCounter = 0;
+        for(let i = 0; i < td.length; ++i) {
+            const label = td[i].epoch + " | " + td[i].batch;
+            labels.push(label);
+            trainValues.push(td[i].value);
+            if(vd[valCounter] !== undefined &&
+               vd[valCounter].epoch === td[i].epoch && 
+               vd[valCounter].batch === td[i].batch) {
+                valValues.push(vd[valCounter].value);
+                valCounter++;
+            }
+            else {
+                valValues.push(null);
+            }
+        }
         return {
-            labels: ["12am-3am", "3am-6pm", "6am-9am", "9am-12am",
-                "12pm-3pm", "3pm-6pm", "6pm-9pm", "9am-12am"
-            ],
+            labels: labels,
             datasets: [
                 {
-                    name: "Some Data", type: "bar",
-                    values: [25, 40, 30, 35, 8, 52, 17, -4]
+                    label: "training-" + this.props.name,
+                    data: trainValues,
+                    fill: false,
+                    borderColor: '#1a237e',
+                    pointRadius: 0,
                 },
                 {
-                    name: "Another Set", type: "line",
-                    values: [25, 50, -10, 15, 18, 32, 27, 14]
-                }
-            ]
+                    label: "validation-" + this.props.name,
+                    data: valValues,
+                    fill: false,
+                    spanGaps: true,
+                    borderColor: '#43a047',
+                },
+            ],
         };
     }
 
     createChart = () => {
         const data = this.createData();
-
         this._chart = new Chart(this._chartRef.current, {
-            title: this.props.name,
             data: data,
             type: 'line',
-            height: this.props.height,
-            colors: ['#7cd6fd', '#743ee2']
+            options: {
+                title: {
+                  display: true,
+                  text: 'Metric Plot',
+                },
+                animation: {
+                    duration: 0,
+                },
+                hover: {
+                    animationDuration: 0,
+                },
+                responsiveAnimationDuration: 0,
+              }
         })
     }
 
     render() {
         return (
             <div className="metric-plot">
-                <div ref={this._chartRef} />
+                <canvas ref={this._chartRef} style={{ width: "100%", height: "550px" }}></canvas>
             </div>
         );
     }

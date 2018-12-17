@@ -29,12 +29,26 @@
             padding: 20px;
             padding-left: 50px;
 
+            @media screen and (max-width: 600px){
+                padding: 5px;
+            }
+
             .field-info{
                 color: #777;
                 display: inline-block;
                 width: 124px;
                 padding-bottom: 8px;
             }
+        }
+
+        #progress-number {
+            text-align: center;
+            padding: 24px;
+            font-size: 29px;
+        }
+        #status-info {
+            color: #777;
+            text-align: center;
         }
 
         #metrics-wrapper{

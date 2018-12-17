@@ -8,9 +8,12 @@ import JobApi from 'apis/job';
 import GetJobToken from './getJobToken.dialog';
 import PlotMetric from './plotMetric';
 import DisplayLog from './displayLog';
+import JobData from 'utils/processJobData.util';
 import { Button } from '@rmwc/button';
 import { Select } from '@rmwc/select';
 import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
+import { LinearProgress } from '@rmwc/linear-progress';
+import { Grid, GridCell } from '@rmwc/grid';
 
 
 class Jobs extends React.Component {
@@ -28,6 +31,31 @@ class Jobs extends React.Component {
             job: null,
             showMetric: null,
         };
+    }
+
+    pollJob = async () => {
+        // TODO: ideally exchange this logic with websockets connection to the server
+        if(this._mountGuard) return;
+        const res = await JobApi.get(this.props.match.params.job);
+        if(this._mountGuard) return;
+        if (res.status === 200){
+            let timeout = 7000;
+            this.setState({
+                job: res.json,
+            });
+            // depending on the current exp status, chose timeout length
+            if(res.json.experiments.length > 0){
+                const status = res.json.experiments[0].status;
+                if(status === -1 || status === 100 || status === 200) {
+                    // currently epxeriment is training or testing, thus shorten interval
+                    timeout = 3200;
+                }
+                else {
+                    timeout = 16000;
+                }
+            }
+            setTimeout(this.pollJob, timeout);
+        }
     }
 
     async componentWillMount() {
@@ -52,6 +80,9 @@ class Jobs extends React.Component {
                 job: res.json,
                 showMetric,
             });
+
+            // Wait 3 seconds and start poll
+            setTimeout(this.pollJob, 3200);
         }
         else {
             console.log(res);
@@ -72,29 +103,41 @@ class Jobs extends React.Component {
             // For now, assuming there is a 1:1 mapping for experiments and jobs
             // TODO: extend this for AWS jobs
             const exp = job.experiments[0];
-            const metricOptions = Object.keys(exp.metrics.training);
-            const typeTable = { 0: "Local", 1: "AWS"};
+            const metricOptions = JobData.getMetricKeys(exp);
+            const trainingData = JobData.getTrainingMetricValues(exp, this.state.showMetric);
+            const validationData = JobData.getValidationMetricValues(exp, this.state.showMetric);
+            const expStatus = JobData.getExpStatus(exp);
+            const progress = JobData.getProgress(exp);
+
             return (
                 <div id="job-details-wrapper">
-                    <div id="job-details-fields">
-                        <div><span className="field-info">Status:</span> Trained</div>
-                        <div><span className="field-info">Type:</span> {typeTable[job.type]}</div>
-                        <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
-                        <div><span className="field-info">Training started:</span> {dayjs(exp.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
-                        <div><span className="field-info">Creator:</span> {job.creator.name}</div>
-                    </div>
+                    <Grid id="job-details-top-row">
+                        <GridCell span={6} id="job-details-fields">
+                            {/* <div><span className="field-info">Status:</span> Trained</div> */}
+                            <div><span className="field-info">Type:</span> {JobData.resolveType(job.type)}</div>
+                            <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
+                            <div><span className="field-info">Training started:</span> {dayjs(exp.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
+                            <div><span className="field-info">Creator:</span> {job.creator.name}</div>
+                        </GridCell>
+                        <GridCell span={6} id="job-details-progress">
+                            <LinearProgress progress={progress}/>
+                            <div id="progress-number">{(progress * 100).toFixed(0)} %</div>
+                            <div id="status-info">STATUS: {expStatus}</div>
+                        </GridCell>
+                    </Grid>
                     {/* TODO: job.setup_log */}
                     <DisplayLog log={exp.log} name="Experiment Log" />
                     {metricOptions.length > 0 ? 
                         <div id="metrics-wrapper">
                             <Select
+                                enhanced
                                 id="select-metric"
                                 label="Select Metric"
                                 onChange={evt => this.setState({ showMetric: evt.target.value })}
                                 value={this.state.showMetric}
                                 options={metricOptions}
                             />
-                            <PlotMetric validationData={[1, 2, 3]} trainingData={[2,3,4]} name={"TEST"}/>
+                            <PlotMetric validationData={validationData} trainingData={trainingData} name={this.state.showMetric}/>
                         </div>
                     :
                         <div id="metrics-wrapper">
@@ -105,6 +148,7 @@ class Jobs extends React.Component {
             )
         }
         else {
+            // TODO: On AWS -> show job status!
             return (
                 <div id="job-details-wrapper" style={{ padding: "40px"}}>
                     No experiment exists for this Job, you can train one with the job token.
