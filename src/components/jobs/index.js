@@ -68,33 +68,31 @@ class Jobs extends React.Component {
         let tableRows = [];
         for(let i = 0; i < jobs.length; i++ ){
             tableRows.push((
-                <DataTableBody key={"job-" + jobs[i]._id}>
-                    <DataTableRow>
-                        {/* <DataTableCell alignEnd>{jobs[i].is_finished}</DataTableCell> */}
-                        <DataTableCell>
-                            <NavLink className="job-details-link" exact to={"/job/" + jobs[i]._id}>{jobs[i].name}</NavLink>
-                        </DataTableCell>
-                        <DataTableCell>{jobs[i].creator.name}</DataTableCell>
-                        <DataTableCell alignEnd>{typeTable[jobs[i].type]}</DataTableCell>
-                        <DataTableCell alignEnd>{dayjs(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
-                        <DataTableCell alignMiddle>
-                            <MenuSurfaceAnchor>
-                                <Menu
-                                    fixed
-                                    anchorCorner="topLeft"
-                                    open={this.state.openMenuByJobId === jobs[i]._id}
-                                    onClose={evt => this.setState({openMenuByJobId: null})}
-                                >
-                                    <MenuItem onClick={evt => alert("Not implemented")}>Edit</MenuItem>
-                                    <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
-                                </Menu>
-                                <Ripple primary>
-                                    <i className="material-icons open-menu" onClick={evt => this.setState({openMenuByJobId: jobs[i]._id})}>more_vert</i>
-                                </Ripple>
-                            </MenuSurfaceAnchor>
-                        </DataTableCell>
-                    </DataTableRow>
-                </DataTableBody>
+                <DataTableRow key={"job-" + jobs[i]._id}>
+                    {/* <DataTableCell alignEnd>{jobs[i].is_finished}</DataTableCell> */}
+                    <DataTableCell>
+                        <NavLink className="job-details-link" exact to={"/job/" + jobs[i]._id}>{jobs[i].name}</NavLink>
+                    </DataTableCell>
+                    <DataTableCell>{jobs[i].creator.name}</DataTableCell>
+                    <DataTableCell alignEnd>{typeTable[jobs[i].type]}</DataTableCell>
+                    <DataTableCell alignEnd>{dayjs(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
+                    <DataTableCell alignMiddle>
+                        <MenuSurfaceAnchor>
+                            <Menu
+                                fixed
+                                anchorCorner="topLeft"
+                                open={this.state.openMenuByJobId === jobs[i]._id}
+                                onClose={evt => this.setState({openMenuByJobId: null})}
+                            >
+                                <MenuItem onClick={evt => alert("Not implemented")}>Edit</MenuItem>
+                                <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
+                            </Menu>
+                            <Ripple primary>
+                                <i className="material-icons open-menu" onClick={evt => this.setState({openMenuByJobId: jobs[i]._id})}>more_vert</i>
+                            </Ripple>
+                        </MenuSurfaceAnchor>
+                    </DataTableCell>
+                </DataTableRow>
             ));
         }
 
@@ -120,7 +118,9 @@ class Jobs extends React.Component {
                                     <DataTableHeadCell alignMiddle></DataTableHeadCell>
                                 </DataTableRow>
                             </DataTableHead>
-                            {tableRows}
+                            <DataTableBody >
+                                {tableRows}
+                            </DataTableBody>
                         </DataTableContent>
                     </DataTable>
                 </div>

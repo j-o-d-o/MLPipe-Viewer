@@ -1,4 +1,4 @@
-// TODO: placeholder doesnt look good... 
+// TODO: Check if profile is "own" profile and only show the specific parts
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { logout } from 'redux/actions/auth';
 import { snackbarError } from 'redux/actions/snackbar';
+import Keystore from './keystore';
 import UserApi from 'apis/user';
 import { Button } from '@rmwc/button';
 
@@ -64,6 +65,7 @@ class User extends React.Component {
                         <div>Email: {user != null ? user.email: ""}</div>
                         <div>Name: {user != null ? user.name : ""}</div>
                     </div>
+                    {user != null && <Keystore userId={user._id}/>}
                     <Button type="button" onClick={this.logout} style={{marginTop: "30px"}}>Logout</Button>
                 </div>
             </div>

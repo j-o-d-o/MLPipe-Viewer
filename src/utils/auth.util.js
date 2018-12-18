@@ -13,3 +13,8 @@ export function getUser() {
     let loggedUser = store.getState().auth.get('loggedUser');
     return loggedUser.toObject();
 }
+
+export function isLoggedUser(userId) {
+    const isLoggedUser = userId === getUser()._id;
+    return isLoggedUser;
+}
