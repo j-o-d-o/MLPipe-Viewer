@@ -2,9 +2,6 @@
 // variables must be first import
 @import 'scss/variables';
 
-// frappe-charts
-@import 'frappe-charts/dist/frappe-charts.min';
-
 // MDC SCSS files
 @import 'material-components-web/material-components-web';
 @import '@rmwc/data-table/data-table';
@@ -21,8 +18,6 @@
 @import 'components/login/index';
 @import 'components/register/index';
 @import 'components/validation/index';
-@import 'components/lander/index';
-@import 'components/footer/index';
 @import 'components/user/index';
 @import 'components/user/keystore';
 @import 'components/dashboard/index';

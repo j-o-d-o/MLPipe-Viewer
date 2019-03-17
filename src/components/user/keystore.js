@@ -5,6 +5,7 @@ import {snackbarError} from 'redux/actions/snackbar';
 import {connect} from 'react-redux';
 import KeystoreApi from 'apis/keystore';
 import CreateKeysDialog from './createKeys.dialog';
+import PublicKeyDialog from './publicKey.dialog';
 import { Button } from '@rmwc/button';
 import { LinearProgress } from '@rmwc/linear-progress';
 import {
@@ -26,10 +27,11 @@ class Keystore extends React.Component {
     constructor(props) {
         super(props);
         this._createKeysDialog = {};
+        this._publicKeyDialog = {};
         this._mountGuard = true;
 
         this.state = {
-        keys: [],
+            keys: [],
             showLoading: false,
         };
     }
@@ -42,7 +44,8 @@ class Keystore extends React.Component {
         this.setState({showLoading: false});
         if (res.status === 200) {
             this.setState({keys: res.json});
-        } else {
+        } 
+        else {
             console.log(res);
             this.props.snackbarError("Error on getting Keys");
         }
@@ -52,9 +55,24 @@ class Keystore extends React.Component {
         this._mountGuard = true; 
     }
 
-  render() {
+    deleteKey = async (keyId) => {
+        // TODO: show confirm dialog before deleting keys
+        this.setState({showLoading: true});
+        const res = await KeystoreApi.delete(keyId);
+        if (this._mountGuard) return;
+        this.setState({showLoading: false});
+        if (res.status === 200) {
+            const keyArr = this.state.keys.filter( ele => ele._id !== keyId);
+            this.setState({ keys: keyArr });
+        }
+        else {
+            console.log(res);
+            this.props.snackbarError("Error on deleting Key");
+        }
+    }
+
+    render() {
         const keys = this.state.keys;
-        console.log(keys);
 
         let tableRows = [];
         for(let i = 0; i < keys.length; ++i ){
@@ -62,8 +80,10 @@ class Keystore extends React.Component {
                 <DataTableRow key={"key-" + keys[i]._id}>
                     <DataTableCell>{keys[i].name}</DataTableCell>
                     <DataTableCell>{dayjs(keys[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
-                    <DataTableCell><Button>Download Public Key</Button></DataTableCell>
-                    <DataTableCell><Button>Delete</Button></DataTableCell>
+                    <DataTableCell>
+                        <Button onClick={() => this._publicKeyDialog.show(keys[i].public_key, keys[i].name)}>Download</Button>
+                    </DataTableCell>
+                    <DataTableCell><Button onClick={() => this.deleteKey(keys[i]._id)}>Delete</Button></DataTableCell>
                 </DataTableRow>
             ));
         }
@@ -96,6 +116,11 @@ class Keystore extends React.Component {
 
                 <CreateKeysDialog 
                     provider={provide => this._createKeysDialog = provide}
+                    onCreated={newKey => this.setState( prevState => ({ keys: [newKey, ...prevState.keys ]}))}
+                />
+
+                <PublicKeyDialog
+                    provider={provide => this._publicKeyDialog = provide}
                 />
             </div>
         );

@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { snackbarError } from 'redux/actions/snackbar';
-import KeystoreApi from 'apis/job';
+import KeystoreApi from 'apis/keystore';
+import Validation from 'components/validation';
 import { LinearProgress } from '@rmwc/linear-progress';
 import { Button } from '@rmwc/button';
+import { TextField } from '@rmwc/textfield';
 import {
     Dialog,
     DialogTitle,
@@ -17,6 +19,7 @@ import {
 class CreateKeysDialog extends React.Component {
     static propTypes = {
         snackbarError: PropTypes.func.isRequired,
+        onCreated: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -27,6 +30,8 @@ class CreateKeysDialog extends React.Component {
             showDialog: false,
             sending: false,
             validation: null,
+            keyName: "",
+            createdKey: null,
         };
     }
 
@@ -41,17 +46,18 @@ class CreateKeysDialog extends React.Component {
         this.props.provider(null);
     }
 
-    submitFrom = async (evt) => {
+    onSubmit = async (evt) => {
         evt.preventDefault();
         if(this.state.sending) return;
 
         this.setState({ sending: true, validation: null });
-        const res = await KeystoreApi.create();
+        const res = await KeystoreApi.create(this.state.keyName);
         if(this._mountGuard) return;
 
         this.setState({ sending: false });
         if (res.status === 200) {
-            // Set state to show a download button and hide form
+            this.props.onCreated(res.json);
+            this.setState({ showDialog: false });
         }
         else if (res.status === 400) {
             this.setState({validation: res});
@@ -63,7 +69,6 @@ class CreateKeysDialog extends React.Component {
     }
 
     render() {
-
         return (
             <Dialog
                 id="create-keys-dialog"
@@ -73,8 +78,9 @@ class CreateKeysDialog extends React.Component {
                 <LinearProgress style={{position: "absolute", zIndex: 1}} determinate={false} closed={!this.state.sending}/>
                 <DialogTitle>Create Keys</DialogTitle>
                 <DialogContent>
-                    <form id="keys-form">
-                        form
+                    <form id="keys-form" onSubmit={this.onSubmit}>
+                        <Validation data={this.state.validation} />
+                        <TextField required label="Name" style={{ width: "300px", marginTop: "10px" }} onChange={e => this.setState({keyName: e.target.value })}/>
                     </form>
                 </DialogContent>
                 <DialogActions>

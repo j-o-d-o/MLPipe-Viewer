@@ -8,7 +8,6 @@ import ScrollToTop from 'components/scrollToTop';
 // Layouts 
 import Layout from 'components/layout';
 // Main components
-import Lander from 'components/lander';
 import User from 'components/user';
 import Login from 'components/login';
 import Register from 'components/register';
@@ -23,11 +22,10 @@ export default (
     <Layout>
         <ScrollToTop>
             <Switch>
-                <Route exact path="/" component={Lander} />
-
                 <PublicRoute exact path="/login" component={Login} />
                 <PublicRoute exact path="/register" component={Register} />
 
+                <PrivateRoute exact path="/" component={Dashboard} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute path="/user/:user" component={User} />
                 <PrivateRoute exact path="/job" component={Jobs} />

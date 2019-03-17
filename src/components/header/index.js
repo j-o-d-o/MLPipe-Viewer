@@ -74,8 +74,6 @@ class Header extends React.Component {
     }
 
     render() {
-        const addClass = this.props.location.pathname === "/" && this.state.scrollAtTop ? "is-lander-page" : "";
-
         const isLogged = authUtil.isLogged();
         let loggedUser = {};
         let TopAppBarSectionContent;
@@ -148,7 +146,7 @@ class Header extends React.Component {
         }
 
         return (
-            <TopAppBar className={addClass}>
+            <TopAppBar>
                 <LoadingBar id="loading-bar" progressIncrease={13} />
                 <TopAppBarRow>
                     <TopAppBarSection alignStart>

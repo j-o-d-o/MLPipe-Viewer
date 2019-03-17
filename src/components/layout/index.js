@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { snackbarResetError, snackbarResetInfo } from 'redux/actions/snackbar';
 import Header from 'components/header';
-import Footer from 'components/footer';
 import { Snackbar } from '@rmwc/snackbar';
 
 
@@ -63,8 +62,6 @@ class Layout extends React.Component {
                 <div id="layout-content">
                     {this.props.children}
                 </div>
-
-                <Footer />
 
                 <Snackbar
                     id="error-snackbar"
