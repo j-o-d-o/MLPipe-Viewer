@@ -93,7 +93,7 @@ class Keystore extends React.Component {
                 <h4>Keystore</h4>
                 
                 <DataTable>
-                    <LinearProgress style={{position: "absolute", zIndex: 1}} determinate={false} closed={!this.state.showLoading}/>
+                    <LinearProgress style={{position: "absolute", zIndex: 1}} closed={!this.state.showLoading}/>
                     <DataTableContent id="keystore-table-content">
                         <DataTableHead>
                             <DataTableRow>
@@ -105,14 +105,11 @@ class Keystore extends React.Component {
                         </DataTableHead>
                         <DataTableBody>
                             {tableRows}
-                            <DataTableRow>
-                                <DataTableCell colSpan={4}>
-                                    <Button onClick={this._createKeysDialog.show}>Create New Key</Button>
-                                </DataTableCell>
-                            </DataTableRow>
                         </DataTableBody>
                     </DataTableContent>
                 </DataTable>
+
+                <Button style={{display: "block"}} onClick={this._createKeysDialog.show}>Create New Key</Button>
 
                 <CreateKeysDialog 
                     provider={provide => this._createKeysDialog = provide}

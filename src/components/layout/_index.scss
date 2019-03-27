@@ -8,13 +8,15 @@
     min-height: calc(100vh - 64px);
 
     #error-snackbar{
-        background: $mdc-theme-error;
-        .mdc-snackbar__action-button{
+        .mdc-snackbar__surface{
+            background: $mdc-theme-error;
+        }
+        .mdc-button__label {
             color: white;
         }
     }
     #info-snackbar{
-        .mdc-snackbar__action-button{
+        .mdc-button__label {
             color: white;
         }
     }

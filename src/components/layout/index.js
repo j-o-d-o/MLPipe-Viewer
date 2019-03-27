@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { snackbarResetError, snackbarResetInfo } from 'redux/actions/snackbar';
 import Header from 'components/header';
-import { Snackbar } from '@rmwc/snackbar';
+import { Snackbar, SnackbarAction } from '@rmwc/snackbar';
 
 
 class Layout extends React.Component {
@@ -65,20 +65,18 @@ class Layout extends React.Component {
 
                 <Snackbar
                     id="error-snackbar"
-                    show={this.state.showErrorSnackbar}
-                    onHide={this.onHideError}
+                    open={this.state.showErrorSnackbar}
+                    onClose={this.onHideError}
                     message={this.state.errorMsg}
-                    actionText="X"
-                    actionHandler={() => {}}
+                    action={[<SnackbarAction label="X" />]}
                 />
 
                 <Snackbar
                     id="info-snackbar"
-                    show={this.state.showInfoSnackbar}
-                    onHide={this.onHideInfo}
+                    open={this.state.showInfoSnackbar}
+                    onClose={this.onHideInfo}
                     message={this.state.infoMsg}
-                    actionText="X"
-                    actionHandler={() => {}}
+                    action={[<SnackbarAction label="X" />]}
                 />
             </section>
         ); 

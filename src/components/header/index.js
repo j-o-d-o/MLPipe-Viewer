@@ -43,34 +43,8 @@ class Header extends React.Component {
         super(props);
 
         this.state = {
-            scrollAtTop: true,
             sideMenuOpen: false
         };
-
-        this.checkScroll = this.checkScroll.bind(this);
-    }
-
-    componentDidMount() {
-        window.addEventListener('scroll', this.checkScroll);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.checkScroll);
-    }
-
-    checkScroll(){
-        let supportPageOffset = window.pageXOffset !== undefined;
-        let isCSS1Compat = ((document.compatMode || '') === 'CSS1Compat');
-        let scroll = {
-           x: supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft,
-           y: supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop
-        };
-        if(scroll.y <= 64 && !this.state.scrollAtTop) {
-            this.setState({ scrollAtTop: true });
-        }
-        else if(scroll.y > 64 && this.state.scrollAtTop){
-            this.setState({ scrollAtTop: false });
-        }
     }
 
     render() {
@@ -119,9 +93,6 @@ class Header extends React.Component {
             TopAppBarSectionContent = (
                 <TopAppBarSection alignEnd>
                     <Button className="nav-button">
-                        <NavLink exact to="/register" activeClassName="active-route">Register</NavLink>
-                    </Button>
-                    <Button className="nav-button">
                         <NavLink exact to="/login" activeClassName="active-route">Login</NavLink>
                     </Button>
                 </TopAppBarSection>
@@ -129,14 +100,6 @@ class Header extends React.Component {
 
             SideMenuContent = (
                 <List>
-                    <ListItem>
-                        <NavLink exact to="/" activeClassName="active-route" 
-                            onClick={() => this.setState({sideMenuOpen: false})}>Home</NavLink>
-                    </ListItem>
-                    <ListItem>
-                        <NavLink exact to="/register" activeClassName="active-route"
-                            onClick={() => this.setState({sideMenuOpen: false})}>Register</NavLink>
-                    </ListItem>
                     <ListItem>
                         <NavLink exact to="/login" activeClassName="active-route"
                             onClick={() => this.setState({sideMenuOpen: false})}>Login</NavLink>

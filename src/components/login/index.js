@@ -64,7 +64,7 @@ class Login extends React.Component {
     render() {
         return (
             <div id="login-page" className="flex-content">
-                <LinearProgress id="login-progress-bar" determinate={false} closed={!this.state.sending}/>
+                <LinearProgress id="login-progress-bar" closed={!this.state.sending}/>
                 <form onSubmit={this.submitLogin}>
                     <h2 style={{fontSize: "30px", marginTop: "0px", marginBottom: "27px"}}>Login</h2>
                     <Validation data={this.state.validation} />

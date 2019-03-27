@@ -38,6 +38,10 @@ header {
             display: none;
         }
 
+        .mdc-button__label{
+            display: inherit;
+        }
+
         a{
             color: #333;
             text-decoration: none;

@@ -75,7 +75,7 @@ class CreateKeysDialog extends React.Component {
                 open={this.state.showDialog}
                 onClose={evt => this.setState({showDialog: false})}
             >
-                <LinearProgress style={{position: "absolute", zIndex: 1}} determinate={false} closed={!this.state.sending}/>
+                <LinearProgress style={{position: "absolute", zIndex: 1}} closed={!this.state.sending}/>
                 <DialogTitle>Create Keys</DialogTitle>
                 <DialogContent>
                     <form id="keys-form" onSubmit={this.onSubmit}>
