@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import dayjs from 'dayjs';
 import { snackbarError } from 'redux/actions/snackbar';
-import JobApi from 'apis/job';
+import UserApi from 'apis/user';
 import { Button } from '@rmwc/button';
-import CreateJobDialog from './createJob.dialog';
+import CreateUserDialog from './createUser.dialog';
 import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
 import { Ripple } from '@rmwc/ripple';
 import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
@@ -22,7 +22,7 @@ import {
 } from '@rmwc/data-table';
 
 
-class Jobs extends React.Component {
+class AdminPanel extends React.Component {
     static propTypes = {
         snackbarError: PropTypes.func.isRequired,
         showLoading: PropTypes.func.isRequired,
@@ -32,11 +32,11 @@ class Jobs extends React.Component {
     constructor(props) {
         super(props);
         this._mountGuard = true;
-        this._createJobDialog = {};
+        this._createUserDialog = {};
 
         this.state = {
-            jobs: [],
-            openMenuByJobId: null,
+            users: [],
+            openMenuByUserId: null,
         };
     }
 
@@ -44,16 +44,16 @@ class Jobs extends React.Component {
         this._mountGuard = false;
         this.props.showLoading();
 
-        const res = await JobApi.getList();
+        const res = await UserApi.getList();
         if(this._mountGuard) return;
 
         this.props.hideLoading();
         if (res.status === 200) {
-            this.setState({ jobs: res.json });
+            this.setState({ users: res.json });
         }
         else {
             console.log(res);
-            this.props.snackbarError("Error on getting Job List");
+            this.props.snackbarError("Error on getting User List");
         }
     }
     componentWillUnmount() {
@@ -61,33 +61,40 @@ class Jobs extends React.Component {
         this.props.hideLoading();
     }
 
+    getRole = (user) => {
+        if(user == null) return "";
+
+        switch(user.role){
+            case 0: return "Developer";
+            case 100: return "Admin";
+            default: return "Unkown " + user.role;
+        }
+    }
+
     render() {
-        const jobs = this.state.jobs;
-        const typeTable = { 0: "Local", 1: "AWS"};
+        const users = this.state.users;
         let tableRows = [];
-        for(let i = 0; i < jobs.length; i++ ){
+        for(let i = 0; i < users.length; i++ ){
             tableRows.push((
-                <DataTableRow key={"job-" + jobs[i]._id}>
-                    {/* <DataTableCell alignEnd>{jobs[i].is_finished}</DataTableCell> */}
+                <DataTableRow key={"user-" + users[i]._id}>
                     <DataTableCell>
-                        <NavLink className="job-details-link" exact to={"/job/" + jobs[i]._id}>{jobs[i].name}</NavLink>
+                        <NavLink className="user-details-link" exact to={"/user/" + users[i]._id}>{users[i].name}</NavLink>
                     </DataTableCell>
-                    <DataTableCell>{jobs[i].creator.name}</DataTableCell>
-                    <DataTableCell alignEnd>{typeTable[jobs[i].type]}</DataTableCell>
-                    <DataTableCell alignEnd>{dayjs(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
+                    <DataTableCell>{this.getRole(users[i])}</DataTableCell>
+                    <DataTableCell alignEnd>{dayjs(users[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
                     <DataTableCell alignMiddle>
                         <MenuSurfaceAnchor>
                             <Menu
                                 fixed
                                 anchorCorner="topLeft"
-                                open={this.state.openMenuByJobId === jobs[i]._id}
-                                onClose={evt => this.setState({openMenuByJobId: null})}
+                                open={this.state.openMenuByUserId === users[i]._id}
+                                onClose={evt => this.setState({openMenuByUserId: null})}
                             >
                                 <MenuItem onClick={evt => alert("Not implemented")}>Edit</MenuItem>
                                 <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
                             </Menu>
                             <Ripple primary>
-                                <i className="material-icons open-menu" onClick={evt => this.setState({openMenuByJobId: jobs[i]._id})}>more_vert</i>
+                                <i className="material-icons open-menu" onClick={evt => this.setState({openMenuByUserId: users[i]._id})}>more_vert</i>
                             </Ripple>
                         </MenuSurfaceAnchor>
                     </DataTableCell>
@@ -96,23 +103,21 @@ class Jobs extends React.Component {
         }
 
         return (
-            <div id="jobs-page" className="flex-content">
-                <div id="jobs-content">
+            <div id="admin-panel-page" className="flex-content">
+                <div id="user-managment-content">
                     <Toolbar>
                         <ToolbarRow id="toolbar-row">
-                            <ToolbarTitle>Training Jobs</ToolbarTitle>
-                            <Button raised type="button" id="create-job-btn" onClick={this._createJobDialog.show}>Create Job</Button>
+                            <ToolbarTitle>User Managment</ToolbarTitle>
+                            <Button raised type="button" id="create-user-btn" onClick={this._createUserDialog.show}>Create User</Button>
                         </ToolbarRow>
                     </Toolbar>
 
-                    <DataTable id="jobs-table">
-                        <DataTableContent id="jobs-table--content">
+                    <DataTable id="user-table">
+                        <DataTableContent id="user-table--content">
                             <DataTableHead>
                                 <DataTableRow>
-                                    {/* <DataTableHeadCell>Status</DataTableHeadCell> */}
                                     <DataTableHeadCell>Name</DataTableHeadCell>
-                                    <DataTableHeadCell>User</DataTableHeadCell>
-                                    <DataTableHeadCell alignEnd>Type</DataTableHeadCell>
+                                    <DataTableHeadCell>Role</DataTableHeadCell>
                                     <DataTableHeadCell alignEnd>Created At</DataTableHeadCell>
                                     <DataTableHeadCell alignMiddle></DataTableHeadCell>
                                 </DataTableRow>
@@ -124,9 +129,9 @@ class Jobs extends React.Component {
                     </DataTable>
                 </div>
 
-                <CreateJobDialog
+                <CreateUserDialog
                     history={this.props.history}
-                    provider={provide => this._createJobDialog = provide}
+                    provider={provide => this._createUserDialog = provide}
                 />
             </div>
         );
@@ -135,4 +140,4 @@ class Jobs extends React.Component {
 
 const mapDispatchToProps = { snackbarError, showLoading, hideLoading};
 
-export default connect(null, mapDispatchToProps)(Jobs);
+export default connect(null, mapDispatchToProps)(AdminPanel);

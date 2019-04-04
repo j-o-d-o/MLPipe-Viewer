@@ -91,24 +91,24 @@ class Keystore extends React.Component {
         return (
             <div id="keystore-component">
                 <h4>Keystore</h4>
-                
-                <DataTable>
-                    <LinearProgress style={{position: "absolute", zIndex: 1}} closed={!this.state.showLoading}/>
-                    <DataTableContent id="keystore-table-content">
-                        <DataTableHead>
-                            <DataTableRow>
-                                <DataTableHeadCell>Name</DataTableHeadCell>
-                                <DataTableHeadCell>Created At</DataTableHeadCell>
-                                <DataTableHeadCell></DataTableHeadCell>
-                                <DataTableHeadCell></DataTableHeadCell>
-                            </DataTableRow>
-                        </DataTableHead>
-                        <DataTableBody>
-                            {tableRows}
-                        </DataTableBody>
-                    </DataTableContent>
-                </DataTable>
-
+                { keys.length > 0 &&
+                    <DataTable>
+                        <LinearProgress style={{position: "absolute", zIndex: 1}} closed={!this.state.showLoading}/>
+                        <DataTableContent id="keystore-table-content">
+                            <DataTableHead>
+                                <DataTableRow>
+                                    <DataTableHeadCell>Name</DataTableHeadCell>
+                                    <DataTableHeadCell>Created At</DataTableHeadCell>
+                                    <DataTableHeadCell></DataTableHeadCell>
+                                    <DataTableHeadCell></DataTableHeadCell>
+                                </DataTableRow>
+                            </DataTableHead>
+                            <DataTableBody>
+                                {tableRows}
+                            </DataTableBody>
+                        </DataTableContent>
+                    </DataTable>
+                }
                 <Button style={{display: "block"}} onClick={this._createKeysDialog.show}>Create New Key</Button>
 
                 <CreateKeysDialog 

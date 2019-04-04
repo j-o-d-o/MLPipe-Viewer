@@ -100,7 +100,7 @@ class CreateJobDialog extends React.Component {
                 open={this.state.showDialog}
                 onClose={evt => this.setState({showDialog: false})}
             >
-                <LinearProgress style={{position: "absolute", zIndex: 1}} id="login-progress-bar" closed={!this.state.sending}/>
+                <LinearProgress style={{position: "absolute", zIndex: 1}} id="create-job-progress-bar" closed={!this.state.sending}/>
                 <DialogTitle>Create Job</DialogTitle>
                 <DialogContent id="dialog-content">
                     <TabBar

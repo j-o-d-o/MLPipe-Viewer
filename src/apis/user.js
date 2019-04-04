@@ -24,6 +24,10 @@ class UserApi {
             }
         }
     }
+
+    // TODO: create()
+    // TODO: getList()
+    // TODO: update()
 }
 
 export default UserApi;

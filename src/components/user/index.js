@@ -8,6 +8,7 @@ import { logout } from 'redux/actions/auth';
 import { snackbarError } from 'redux/actions/snackbar';
 import Keystore from './keystore';
 import UserApi from 'apis/user';
+import * as authUtil from 'utils/auth.util';
 import { Button } from '@rmwc/button';
 
 
@@ -54,19 +55,34 @@ class User extends React.Component {
         window.location.href = "/";
     }
 
+    getRole = (user) => {
+        if(user == null) return "";
+
+        switch(user.role){
+            case 0: return "Developer";
+            case 100: return "Admin";
+            default: return "Unkown " + user.role;
+        }
+    }
+
     render() {
         const user = this.state.user;
+        const loggedUser = authUtil.getUser();
 
         return (
             <div id="user-page" className="flex-content">
                 <div id="user-content">
-                    <h1>My Profile</h1>
+                    <h1>{user != null ? user.name : ""}</h1>
                     <div>
-                        <div>Email: {user != null ? user.email: ""}</div>
-                        <div>Name: {user != null ? user.name : ""}</div>
+                        <div><span className="user-info">Email:</span> {user != null ? user.email: ""}</div>
+                        <div><span className="user-info">Role:</span> {this.getRole(user)}</div>
                     </div>
-                    {user != null && <Keystore userId={user._id}/>}
-                    <Button type="button" onClick={this.logout} style={{marginTop: "30px"}}>Logout</Button>
+                    { (user != null && user._id === loggedUser._id) &&
+                        <div>
+                            <Keystore userId={user._id}/>
+                            <Button type="button" onClick={this.logout} style={{marginTop: "30px"}}>Logout</Button>
+                        </div>
+                    }
                 </div>
             </div>
         );

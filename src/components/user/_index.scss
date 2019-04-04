@@ -2,5 +2,12 @@
     #user-content{
         width: 100%;
         max-width: 600px;
+
+        .user-info{
+            color: #777;
+            display: inline-block;
+            min-width: 55px;
+            padding-bottom: 8px;
+        }
     }
 }

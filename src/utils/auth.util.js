@@ -18,3 +18,8 @@ export function isLoggedUser(userId) {
     const isLoggedUser = userId === getUser()._id;
     return isLoggedUser;
 }
+
+export function isAdmin() {
+    const user = getUser();
+    return isLogged() && user.role >= 100;
+}

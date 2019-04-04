@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import LoadingBar from 'react-redux-loading-bar';
 
 import * as authUtil from 'utils/auth.util';
@@ -28,16 +27,6 @@ import { Fab } from '@rmwc/fab';
 import { Button } from '@rmwc/button';
 
 
-function mapStateToProps(state) {
-    return {
-        auth: state.auth,
-    };
-}
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(authActions, dispatch),
-    };
-}
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -49,6 +38,7 @@ class Header extends React.Component {
 
     render() {
         const isLogged = authUtil.isLogged();
+        const isAdmin = authUtil.isAdmin();
         let loggedUser = {};
         let TopAppBarSectionContent;
         let SideMenuContent;
@@ -57,35 +47,42 @@ class Header extends React.Component {
             TopAppBarSectionContent = (
                 <TopAppBarSection alignEnd>
                     <Button className="nav-button">
-                        <NavLink to="/job" activeClassName="active-route">Jobs</NavLink>
+                        <NavLink exact to="/dashboard" activeClassName="active-route">Dashboard</NavLink>
                     </Button>
                     <Button className="nav-button">
-                        <NavLink exact to="/dashboard" activeClassName="active-route">Dashboard</NavLink>
+                        <NavLink to="/job" activeClassName="active-route">Jobs</NavLink>
                     </Button>
                     <Button className="nav-button">
                         <NavLink exact to={"/user/" + loggedUser._id} activeClassName="active-route">Profile</NavLink>
                     </Button>
+                    { isAdmin && 
+                        <Button className="nav-button">
+                            <NavLink exact to="/admin_panel" activeClassName="active-route">Admin Panel</NavLink>
+                        </Button>
+                    }
                 </TopAppBarSection>
             )
 
             SideMenuContent = (
                 <List>
                     <ListItem>
-                        <NavLink exact to="/" activeClassName="active-route"
-                            onClick={() => this.setState({sideMenuOpen: false})}>Home</NavLink>
-                    </ListItem>
-                    <ListItem>
                         <NavLink exact to="/dashboard" activeClassName="active-route"
                             onClick={() => this.setState({sideMenuOpen: false})}>Dashboard</NavLink>
-                    </ListItem>
-                    <ListItem>
-                        <NavLink exact to={"/user/" + loggedUser._id} activeClassName="active-route"
-                            onClick={() => this.setState({sideMenuOpen: false})}>Profile</NavLink>
                     </ListItem>
                     <ListItem>
                         <NavLink exact to="/job" activeClassName="active-route"
                             onClick={() => this.setState({sideMenuOpen: false})}>Jobs</NavLink>
                     </ListItem>
+                    <ListItem>
+                        <NavLink exact to={"/user/" + loggedUser._id} activeClassName="active-route"
+                            onClick={() => this.setState({sideMenuOpen: false})}>Profile</NavLink>
+                    </ListItem>
+                    { isAdmin && 
+                        <ListItem>
+                            <NavLink exact to="/admin_panel" activeClassName="active-route"
+                                onClick={() => this.setState({sideMenuOpen: false})}>Admin Panel</NavLink>
+                        </ListItem>
+                    }
                 </List>
             );
         }
@@ -143,5 +140,8 @@ class Header extends React.Component {
     }
 }
 
+
+const mapDispatchToProps = {authActions}
+
 // { pure: false } needed for NavLink to update the activeClassName
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(Header))
+export default withRouter(connect(null, mapDispatchToProps, null, { pure: false })(Header))
