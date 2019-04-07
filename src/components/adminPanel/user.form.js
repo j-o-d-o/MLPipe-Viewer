@@ -23,6 +23,7 @@ class UserForm extends React.Component {
         super(props);
 
         const iv = props.initalValues;
+        console.log(iv);
 
         this.state = {
             name: iv["name"] !== undefined ? iv["name"] : "",
@@ -42,11 +43,12 @@ class UserForm extends React.Component {
 
 
     render() {
+        console.log(this.state);
         return (
             <form id={this.props.id} onSubmit={this.props.onSubmit}>
                 <Validation data={this.props.validation} />
-                <TextField required label="Name" style={{ width: "300px", marginTop: "10px" }} onChange={e => this.setState({name: e.target.value })}/>
-                <TextField required label="Email" style={{ width: "300px", marginTop: "10px" }} onChange={e => this.setState({email: e.target.value })}/>
+                <TextField required label="Name" value={this.state.name} style={{ width: "300px", marginTop: "10px" }} onChange={e => this.setState({name: e.target.value })}/>
+                <TextField required label="Email" value={this.state.email} style={{ width: "300px", marginTop: "10px" }} onChange={e => this.setState({email: e.target.value })}/>
             </form>
         );
     }

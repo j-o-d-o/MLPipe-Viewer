@@ -55,9 +55,7 @@ class UserApi {
         try {
             // type can be any of: ["local", "aws"]
             const token = "Bearer " + authUtil.getToken();
-            console.log(data);
             const jsonData = JSON.stringify(data);
-            console.log(jsonData);
             const res = await fetch(CONFIG.apiUrl  + 'job/' + type, {
                 method: "POST",
                 body: jsonData,

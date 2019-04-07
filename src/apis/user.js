@@ -25,9 +25,77 @@ class UserApi {
         }
     }
 
-    // TODO: create()
-    // TODO: getList()
-    // TODO: update()
+    static getList = async () => {
+        try {
+            const token = "Bearer " + authUtil.getToken();
+            const res = await fetch(CONFIG.apiUrl  + 'users', {
+                method: "GET",
+                headers: new Headers({
+                    'Authorization': token,
+                })
+            });
+            const json = await res.json();
+            return {
+                status: res.status,
+                json
+            };
+        } catch(error) {
+            return {
+                status: -1,
+                json: error,
+            }
+        }
+    }
+
+    static create = async(data) => {
+        try {
+            const token = "Bearer " + authUtil.getToken();
+            const jsonData = JSON.stringify(data);
+            const res = await fetch(CONFIG.apiUrl  + 'register', {
+                method: "POST",
+                body: jsonData,
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                })
+            });
+            const json = await res.json();
+            return {
+                status: res.status,
+                json
+            };
+        } catch(error) {
+            return {
+                status: -1,
+                json: error,
+            }
+        }
+    }
+
+    static update = async(userId, data) => {
+        try {
+            const token = "Bearer " + authUtil.getToken();
+            const jsonData = JSON.stringify(data);
+            const res = await fetch(CONFIG.apiUrl  + 'user/' + userId, {
+                method: "PUT",
+                body: jsonData,
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                })
+            });
+            const json = await res.json();
+            return {
+                status: res.status,
+                json
+            };
+        } catch(error) {
+            return {
+                status: -1,
+                json: error,
+            }
+        }
+    }
 }
 
 export default UserApi;
