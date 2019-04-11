@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import dayjs from 'dayjs';
-import { snackbarError } from 'redux/actions/snackbar';
+import { snackbarError, snackbarInfo } from 'redux/actions/snackbar';
 import UserApi from 'apis/user';
 import { Button } from '@rmwc/button';
 import CreateUserDialog from './createUser.dialog';
+import UpdateUserDialog from './updateUser.dialog';
 import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
 import { Ripple } from '@rmwc/ripple';
 import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
@@ -72,6 +73,29 @@ class AdminPanel extends React.Component {
         }
     }
 
+    setInactive = async (user) => {
+        const userId = user._id;
+        this._mountGuard = false;
+        this.props.showLoading();
+
+        const res = await UserApi.setInactive(userId);
+        if(this._mountGuard) return;
+
+        this.props.hideLoading();
+        if (res.status === 200) {
+            this.setState((prevState) => ({
+                users: prevState.users.filter( obj => {
+                    return obj._id !== userId;
+                })
+            }));
+            this.props.snackbarInfo("Set User to inactive")
+        }
+        else {
+            console.log(res);
+            this.props.snackbarError("Error setting User to inactive");
+        }
+    }
+
     render() {
         const users = this.state.users;
         let tableRows = [];
@@ -91,8 +115,8 @@ class AdminPanel extends React.Component {
                                 open={this.state.openMenuByUserId === users[i]._id}
                                 onClose={evt => this.setState({openMenuByUserId: null})}
                             >
-                                <MenuItem onClick={evt => alert("Not implemented")}>Edit</MenuItem>
-                                <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
+                                <MenuItem onClick={evt => this._updateUserDialog.show(users[i])}>Edit</MenuItem>
+                                <MenuItem onClick={evt => this.setInactive(users[i])}>Set Inactive</MenuItem>
                             </Menu>
                             <Ripple primary>
                                 <i className="material-icons open-menu" onClick={evt => this.setState({openMenuByUserId: users[i]._id})}>more_vert</i>
@@ -130,6 +154,15 @@ class AdminPanel extends React.Component {
                     </DataTable>
                 </div>
 
+                <UpdateUserDialog
+                    provider={provide => this._updateUserDialog = provide}
+                    cb={(updatedUser) => {
+                        let users = this.state.users;
+                        users[users.findIndex(el => el._id === updatedUser._id)] = updatedUser;
+                        this.setState({ users: users });
+                    }}
+                />
+
                 <CreateUserDialog
                     history={this.props.history}
                     provider={provide => this._createUserDialog = provide}
@@ -144,6 +177,6 @@ class AdminPanel extends React.Component {
     }
 }
 
-const mapDispatchToProps = { snackbarError, showLoading, hideLoading};
+const mapDispatchToProps = { snackbarError, snackbarInfo, showLoading, hideLoading};
 
 export default connect(null, mapDispatchToProps)(AdminPanel);

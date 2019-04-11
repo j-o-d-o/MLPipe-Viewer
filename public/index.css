@@ -9323,7 +9323,8 @@ a.mdc-list-item {
 .mdc-dialog__container {
   width: 100%; }
   .mdc-dialog__container .mdc-dialog__surface {
-    width: 100%; }
+    width: 100%;
+    position: relative; }
 
 .mdc-snackbar {
   z-index: 99; }
@@ -9563,11 +9564,6 @@ header {
     header .nav-button .active-route {
       border: 1px solid #333;
       outline: 0px !important; }
-  header #loading-bar {
-    position: absolute;
-    height: 2px;
-    background: #424242;
-    z-index: 10; }
   header #drawer {
     border-right-width: 0px; }
     header #drawer #drawer-header {

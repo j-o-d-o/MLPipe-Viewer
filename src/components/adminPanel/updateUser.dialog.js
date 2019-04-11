@@ -15,7 +15,7 @@ import {
 } from '@rmwc/dialog';
 
 
-class CreateUserDialog extends React.Component {
+class UpdateUserDialog extends React.Component {
     static propTypes = {
         snackbarError: PropTypes.func.isRequired,
         cb: PropTypes.func,
@@ -32,13 +32,17 @@ class CreateUserDialog extends React.Component {
             showDialog: false,
             sending: false,
             validation: null,
+            user: {},
         };
     }
 
     componentWillMount() {
         this._mountGuard = false;
         this.props.provider({
-            show: () => this.setState({showDialog: true}),
+            show: (user) => {
+                this._userForm.setData(user);
+                this.setState({showDialog: true, user: user});
+            },
         });
     }
     componentWillUnmount() {
@@ -51,7 +55,7 @@ class CreateUserDialog extends React.Component {
         if(this.state.sending) return;
 
         this.setState({ sending: true, validation: null });
-        const res = await UserApi.create({ user: this._userForm.getData()});
+        const res = await UserApi.update(this.state.user._id, { user: this._userForm.getData()});
         if(this._mountGuard) return;
 
         this.setState({ sending: false });
@@ -65,30 +69,31 @@ class CreateUserDialog extends React.Component {
         }
         else {
             console.log(res);
-            this.props.snackbarError("Error on creating User");
+            this.props.snackbarError("Error on updating User");
         }
     }
 
     render() {
         return (
             <Dialog
-                id="create-user-dialog"
+                id="update-user-dialog"
                 open={this.state.showDialog}
                 onClose={evt => this.setState({showDialog: false})}
             >
-                <LinearProgress style={{position: "absolute", zIndex: 1}} id="create-user-progress-bar" closed={!this.state.sending}/>
-                <DialogTitle>Create User</DialogTitle>
+                <LinearProgress style={{position: "absolute", zIndex: 1}} id="update-user-progress-bar" closed={!this.state.sending}/>
+                <DialogTitle>Update User</DialogTitle>
                 <DialogContent id="dialog-content">
                     <UserForm
-                        id="user-form"
+                        id="update-user-form"
                         provider={provide => this._userForm = provide}
                         validation={this.state.validation}
-                        onSubmit={this.submit} />
+                        onSubmit={this.submit}
+                        edit={true}/>
                 </DialogContent>
                 <DialogActions>
                     <DialogButton action="close">Cancel</DialogButton>
                     <div style={{flex: 1}}></div>
-                    <Button raised disabled={this.state.sending} type="submit" form="user-form">Create</Button>
+                    <Button raised disabled={this.state.sending} type="submit" form="update-user-form">Update</Button>
                 </DialogActions>
             </Dialog>
         );
@@ -96,4 +101,4 @@ class CreateUserDialog extends React.Component {
 }
 
 const mapDispatchToProps = { snackbarError };
-export default connect(null, mapDispatchToProps)(CreateUserDialog);
+export default connect(null, mapDispatchToProps)(UpdateUserDialog);

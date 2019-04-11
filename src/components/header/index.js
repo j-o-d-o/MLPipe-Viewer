@@ -107,7 +107,7 @@ class Header extends React.Component {
 
         return (
             <TopAppBar>
-                <LoadingBar id="loading-bar" progressIncrease={13} />
+                <LoadingBar style={{backgroundColor: "#424242"}} progressIncrease={13} />
                 <TopAppBarRow>
                     <TopAppBarSection alignStart>
                         <TopAppBarTitle>

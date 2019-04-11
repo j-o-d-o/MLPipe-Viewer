@@ -24,6 +24,7 @@ class User extends React.Component {
 
         this.state = {
             user: null,
+            notFound: false,
         };
     }
 
@@ -48,7 +49,10 @@ class User extends React.Component {
 
         this.props.hideLoading();
         if (res.status === 200) {
-            this.setState({ user: res.json });
+            this.setState({ user: res.json, notFound: false });
+        }
+        else if(res.status === 404) {
+            this.setState({ user: null, notFound: true });
         }
         else {
             console.log(res);
@@ -78,6 +82,9 @@ class User extends React.Component {
         return (
             <div id="user-page" className="flex-content">
                 <div id="user-content">
+                    { this.state.notFound && 
+                        <h2>User does not exist or is inactive</h2>
+                    }
                     <h1>{user != null ? user.name : ""}</h1>
                     <div>
                         <div><span className="user-info">Email:</span> {user != null ? user.email: ""}</div>

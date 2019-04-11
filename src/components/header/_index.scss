@@ -61,13 +61,6 @@ header {
         }
     }
 
-    #loading-bar {
-        position: absolute;
-        height: 2px;
-        background: $mdc-theme-secondary;
-        z-index: 10;
-    }
-
     #drawer{
         border-right-width: 0px;
         #drawer-header{

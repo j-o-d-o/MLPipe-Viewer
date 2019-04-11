@@ -96,6 +96,29 @@ class UserApi {
             }
         }
     }
+
+    static setInactive = async(userId) => {
+        try {
+            const token = "Bearer " + authUtil.getToken();
+            const res = await fetch(CONFIG.apiUrl  + 'user/' + userId + "/setInactive", {
+                method: "PUT",
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                })
+            });
+            const json = await res.json();
+            return {
+                status: res.status,
+                json
+            };
+        } catch(error) {
+            return {
+                status: -1,
+                json: error,
+            }
+        }
+    }
 }
 
 export default UserApi;

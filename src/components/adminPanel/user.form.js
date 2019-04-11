@@ -11,26 +11,22 @@ class UserForm extends React.Component {
         provider: PropTypes.func,
         validation: PropTypes.object,
         id: PropTypes.string,
-        initalValues: PropTypes.object,
         edit: PropTypes.bool,
     }
     static defaultProps = {
         onSubmit: (evt) => evt.preventDefault(),
         provider: () => {},
         validation: null,
-        initalValues: {},
         edit: false,
     }
 
     constructor(props) {
         super(props);
 
-        const iv = props.initalValues;
-
         this.state = {
-            name: iv["name"] !== undefined ? iv["name"] : "",
-            email: iv["email"] !== undefined ? iv["email"] : "",
-            role: iv["role"] !== undefined ? toString(iv["role"]) : '0',
+            name: "",
+            email: "",
+            role: '0',
             password: "",
         };
     }
@@ -39,8 +35,18 @@ class UserForm extends React.Component {
         this.props.provider({
             getData: () => { 
                 let userData = this.state;
-                userData["role"] = parseInt(userData["role"], 10)
+                userData["role"] = parseInt(userData["role"], 10);
+                if(this.props.edit) {
+                    delete userData["password"];
+                }
                 return userData;
+            },
+            setData: (user) => {
+                this.setState({
+                    name: user.name,
+                    email: user.email,
+                    role: user.role.toString(10),
+                })
             },
             reset: () => {
                 this.setState({ 
@@ -56,11 +62,11 @@ class UserForm extends React.Component {
 
     render() {
         return (
-            <form id={this.props.id} autocomplete="off" onSubmit={this.props.onSubmit}>
+            <form id={this.props.id} autoComplete="off" onSubmit={this.props.onSubmit}>
                 <Validation data={this.props.validation} />
                 <TextField
                     required
-                    autocomplete="false"
+                    autoComplete="false"
                     label="Name"
                     value={this.state.name}
                     style={{ width: "90%", maxWidth: "300px", marginTop: "40px" }}
@@ -68,7 +74,7 @@ class UserForm extends React.Component {
                 />
                 <TextField
                     required
-                    autocomplete="false"
+                    autoComplete="false"
                     label="Email"
                     value={this.state.email}
                     style={{ width: "90%", maxWidth: "300px", marginTop: "30px" }}
@@ -77,7 +83,7 @@ class UserForm extends React.Component {
                 {!this.props.edit &&
                 <TextField
                     required
-                    autocomplete="false"
+                    autoComplete="false"
                     label="Password"
                     value={this.state.password}
                     style={{ width: "90%", maxWidth: "300px", marginTop: "30px" }} 
