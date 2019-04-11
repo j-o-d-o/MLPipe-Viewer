@@ -27,11 +27,11 @@
     "postcss": "^7.0.14"
   },
   "scripts": {
-    "post-css": "postcss public/bundle.css -o public/index.css --no-map && rm -rf public/bundle.css public/bundle.css.map public/index.css.map",
-    "watch-css": "postcss public/bundle.css -o public/index.css -w",
-    "build-sass": "node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css --output-style compressed",
+    "post-css": "postcss public/_pre_post-css.css -o public/index.css --no-map && rm -rf public/_pre_post-css.css public/_pre_post-css.css.map public/index.css.map",
+    "watch-css": "postcss public/_pre_post-css.css -o public/index.css -w",
+    "build-sass": "node-sass --include-path node_modules --include-path src src/index.scss public/_pre_post-css.css --output-style compressed",
     "build-css": "npm run build-sass && npm run post-css",
-    "watch-sass": "npm run build-sass && node-sass --include-path node_modules --include-path src src/index.scss public/bundle.css -w -r",
+    "watch-sass": "npm run build-sass && node-sass --include-path node_modules --include-path src src/index.scss public/_pre_post-css.css -w -r",
     "start-js": "react-scripts start",
     "start": "npm run build-sass && npm-run-all --parallel watch-sass watch-css start-js",
     "build-js": "react-scripts build",

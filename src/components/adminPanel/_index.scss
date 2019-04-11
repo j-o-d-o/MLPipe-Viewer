@@ -1,0 +1,43 @@
+#admin-panel-page{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    overflow-y: visible;
+    margin-bottom: 50px;
+
+    #user-managment-content{
+        width: 100%;
+
+        #toolbar-row{
+            background: #444;
+        }
+
+        #user-table{
+            display: inline-block;
+            vertical-align: top;
+            padding-bottom: 5px;
+            width: 100%;
+            overflow-y: visible;
+            border: 0px solid black;
+            
+            #user-table--content{
+                width: 100%;
+            }
+
+            .user-details-link {
+                //text-decoration: none;
+                color: #444;
+            }
+        }
+
+        #create-user-btn {
+            position: absolute;
+            right: 20px;
+        }
+
+        .open-menu{
+            border-radius: 300px;
+            cursor: pointer;
+            padding: 4px;
+        }
+    }
+}

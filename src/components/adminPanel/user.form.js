@@ -56,25 +56,28 @@ class UserForm extends React.Component {
 
     render() {
         return (
-            <form id={this.props.id} onSubmit={this.props.onSubmit}>
+            <form id={this.props.id} autocomplete="off" onSubmit={this.props.onSubmit}>
                 <Validation data={this.props.validation} />
-                <TextField 
-                    required 
+                <TextField
+                    required
+                    autocomplete="false"
                     label="Name"
                     value={this.state.name}
                     style={{ width: "90%", maxWidth: "300px", marginTop: "40px" }}
                     onChange={e => this.setState({name: e.target.value })}
                 />
-                <TextField 
-                    required 
+                <TextField
+                    required
+                    autocomplete="false"
                     label="Email"
                     value={this.state.email}
                     style={{ width: "90%", maxWidth: "300px", marginTop: "30px" }}
                     onChange={e => this.setState({email: e.target.value })}
                 />
-                {!this.props.edit && 
-                <TextField 
+                {!this.props.edit &&
+                <TextField
                     required
+                    autocomplete="false"
                     label="Password"
                     value={this.state.password}
                     style={{ width: "90%", maxWidth: "300px", marginTop: "30px" }} 
