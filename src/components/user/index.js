@@ -28,10 +28,22 @@ class User extends React.Component {
     }
 
     async componentWillMount() {
+        this.updateUser(this.props.match.params.user);
+    }
+    componentWillUnmount() {
+        this._mountGuard = true;
+        this.props.hideLoading();
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.match.params.user !== this.props.match.params.user)
+            this.updateUser(this.props.match.params.user);
+    }
+
+    updateUser = async (userId) => {
         this._mountGuard = false;
         this.props.showLoading();
 
-        const res = await UserApi.get(this.props.match.params.user);
+        const res = await UserApi.get(userId);
         if(this._mountGuard) return;
 
         this.props.hideLoading();
@@ -43,10 +55,6 @@ class User extends React.Component {
             this.props.snackbarError("Error on getting User");
         }
     }
-    componentWillUnmount() {
-        this._mountGuard = true;
-        this.props.hideLoading();
-    }
 
     logout = () => {
         this.props.logout();
@@ -57,7 +65,7 @@ class User extends React.Component {
         if(user == null) return "";
 
         switch(user.role){
-            case 0: return "Developer";
+            case 0: return "User";
             case 100: return "Admin";
             default: return "Unkown " + user.role;
         }

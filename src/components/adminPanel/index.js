@@ -56,6 +56,7 @@ class AdminPanel extends React.Component {
             this.props.snackbarError("Error on getting User List");
         }
     }
+
     componentWillUnmount() {
         this._mountGuard = true;
         this.props.hideLoading();
@@ -65,7 +66,7 @@ class AdminPanel extends React.Component {
         if(user == null) return "";
 
         switch(user.role){
-            case 0: return "Developer";
+            case 0: return "User";
             case 100: return "Admin";
             default: return "Unkown " + user.role;
         }
@@ -132,6 +133,11 @@ class AdminPanel extends React.Component {
                 <CreateUserDialog
                     history={this.props.history}
                     provider={provide => this._createUserDialog = provide}
+                    cb={(newUser) => {
+                        this.setState((prevState) => ({
+                            users: [newUser, ...prevState.users],
+                        }));
+                    }}
                 />
             </div>
         );

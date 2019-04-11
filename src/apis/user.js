@@ -51,7 +51,7 @@ class UserApi {
         try {
             const token = "Bearer " + authUtil.getToken();
             const jsonData = JSON.stringify(data);
-            const res = await fetch(CONFIG.apiUrl  + 'register', {
+            const res = await fetch(CONFIG.apiUrl  + 'user/register', {
                 method: "POST",
                 body: jsonData,
                 headers: new Headers({

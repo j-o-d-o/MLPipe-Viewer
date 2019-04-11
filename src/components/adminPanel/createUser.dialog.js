@@ -19,6 +19,10 @@ class CreateUserDialog extends React.Component {
     static propTypes = {
         snackbarError: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired,
+        cb: PropTypes.func,
+    }
+    static defaultProps = {
+        cb: () => {},
     }
 
     constructor(props) {
@@ -48,12 +52,14 @@ class CreateUserDialog extends React.Component {
         if(this.state.sending) return;
 
         this.setState({ sending: true, validation: null });
-        const res = await UserApi.create(this._userForm.getData());
+        const res = await UserApi.create({ user: this._userForm.getData()});
         if(this._mountGuard) return;
 
         this.setState({ sending: false });
         if (res.status === 200) {
-            console.log("Created... what to do now?")
+            this.props.cb(res.json);
+            this._userForm.reset();
+            this.setState({ showDialog: false });
         }
         else if (res.status === 400) {
             this.setState({validation: res});
