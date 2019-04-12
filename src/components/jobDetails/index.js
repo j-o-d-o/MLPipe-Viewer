@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { snackbarError } from 'redux/actions/snackbar';
 import JobApi from 'apis/job';
+import { NavLink } from 'react-router-dom';
 import GetJobToken from './getJobToken.dialog';
 import PlotMetric from './plotMetric';
 import DisplayLog from './displayLog';
@@ -16,7 +17,7 @@ import { LinearProgress } from '@rmwc/linear-progress';
 import { Grid, GridCell } from '@rmwc/grid';
 
 
-class Jobs extends React.Component {
+class JobDetails extends React.Component {
     static propTypes = {
         snackbarError: PropTypes.func.isRequired,
         showLoading: PropTypes.func.isRequired,
@@ -94,6 +95,25 @@ class Jobs extends React.Component {
         this.props.hideLoading();
     }
 
+    deleteJob = async (evt, jobId) => {
+        evt.preventDefault();
+        this._mountGuard = false;
+        this.props.showLoading();
+
+        const res = await JobApi.delete(this.props.match.params.job);
+        if(this._mountGuard) return;
+
+        this.props.hideLoading();
+        if (res.status === 200) {
+            // Redirect to the jobs page
+            this.props.history.push("/job");
+        }
+        else {
+            console.log(res);
+            this.props.snackbarError("Error on deleting Job");
+        }
+    }
+
     buildContent = () => {
         const job = this.state.job;
         if(job === null) {
@@ -117,7 +137,9 @@ class Jobs extends React.Component {
                             <div><span className="field-info">Type:</span> {JobData.resolveType(job.type)}</div>
                             <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
                             <div><span className="field-info">Training started:</span> {dayjs(exp.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
-                            <div><span className="field-info">Creator:</span> {job.creator.name}</div>
+                            <div><span className="field-info">Creator:</span> 
+                                <NavLink className="user-details-link" exact to={"/user/" + job.creator._id}>{job.creator.name}</NavLink>
+                            </div>
                         </GridCell>
                         <GridCell span={6} id="job-details-progress">
                             <LinearProgress progress={progress}/>
@@ -148,10 +170,21 @@ class Jobs extends React.Component {
             )
         }
         else {
-            // TODO: On AWS -> show job status!
             return (
                 <div id="job-details-wrapper" style={{ padding: "40px"}}>
-                    No experiment exists for this Job, you can train one with the job token.
+                    <Grid id="job-details-top-row">
+                        <GridCell span={6} id="job-details-fields">
+                            {/* <div><span className="field-info">Status:</span> Trained</div> */}
+                            <div><span className="field-info">Type:</span> {JobData.resolveType(job.type)}</div>
+                            <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
+                            <div><span className="field-info">Creator:</span> 
+                                <NavLink className="user-details-link" exact to={"/user/" + job.creator._id}>{job.creator.name}</NavLink>
+                            </div>
+                        </GridCell>
+                    </Grid>
+                    <div style={{textAlign: "center"}}>
+                        No experiment exists for this Job yet
+                    </div>
                 </div>
             )
         }
@@ -170,8 +203,7 @@ class Jobs extends React.Component {
                     </Toolbar>
                     <div>
                         <div id="action-menu">
-                            <Button disabled={job === null} className="action-btn" onClick={() => alert("Not implemented")}>edit</Button>
-                            <Button disabled={job === null} className="action-btn" onClick={() => alert("Not implemented")}>delete</Button>
+                            <Button disabled={job === null} className="action-btn" onClick={(evt) => this.deleteJob(evt, job._id)}>delete</Button>
                             <Button disabled={job === null} className="action-btn" onClick={() => this._getJobToken.show()}>get token</Button>
                         </div>
                         <div>
@@ -193,4 +225,4 @@ class Jobs extends React.Component {
 
 const mapDispatchToProps = { snackbarError, showLoading, hideLoading};
 
-export default connect(null, mapDispatchToProps)(Jobs);
+export default connect(null, mapDispatchToProps)(JobDetails);

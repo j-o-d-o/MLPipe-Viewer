@@ -80,6 +80,29 @@ class UserApi {
             }
         }
     }
+
+    static delete = async(jobId) => {
+        try {
+            const token = "Bearer " + authUtil.getToken();
+            const res = await fetch(CONFIG.apiUrl  + 'job/' + jobId, {
+                method: "DELETE",
+                headers: new Headers({
+                    'Authorization': token,
+                })
+            });
+            const json = await res.json();
+            middleware.apply(res, json);
+            return {
+                status: res.status,
+                json
+            };
+        } catch(error) {
+            return {
+                status: -1,
+                json: error,
+            }
+        }
+    }
 }
 
 export default UserApi;
