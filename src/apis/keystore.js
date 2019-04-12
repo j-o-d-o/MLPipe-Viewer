@@ -1,5 +1,6 @@
 import { CONFIG } from 'config';
 import * as authUtil from 'utils/auth.util';
+import * as middleware from './middleware';
 
 
 class KeystoreApi {
@@ -13,6 +14,7 @@ class KeystoreApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json
@@ -38,6 +40,7 @@ class KeystoreApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json
@@ -60,6 +63,7 @@ class KeystoreApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json

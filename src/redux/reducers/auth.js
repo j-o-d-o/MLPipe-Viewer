@@ -28,11 +28,15 @@ export default function authReducer(state = initalState, action) {
     switch (action.type) {
         case types.LOGOUT: {
             // On logout -> page is reloaded, but return a state just in case
+            localStorage.deleteValue(CONFIG.localStorageCredentials);
+            // Just reload page on logout...
+            window.location.href = "/";
             return state.set('isLogged', false).set('loggedUser', initalState);
         }
         case types.LOGIN: {
             // @param user [object]: a user object
             let userMap = Map(action.user);
+            localStorage.set(CONFIG.localStorageCredentials, action.user);
             return state.set('isLogged', true).set('loggedUser', userMap);
         }
         case types.UPDATE_LOGGED: {

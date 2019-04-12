@@ -1,4 +1,6 @@
 import { CONFIG } from 'config';
+import * as middleware from './middleware';
+
 
 class AuthApi {
     static login = async (credentials) => {
@@ -12,6 +14,7 @@ class AuthApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json

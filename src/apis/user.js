@@ -1,5 +1,6 @@
 import { CONFIG } from 'config';
 import * as authUtil from 'utils/auth.util';
+import * as middleware from './middleware';
 
 
 class UserApi {
@@ -13,6 +14,7 @@ class UserApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json
@@ -35,6 +37,7 @@ class UserApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json
@@ -60,6 +63,7 @@ class UserApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json
@@ -85,6 +89,7 @@ class UserApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json
@@ -108,6 +113,7 @@ class UserApi {
                 })
             });
             const json = await res.json();
+            middleware.apply(res, json);
             return {
                 status: res.status,
                 json

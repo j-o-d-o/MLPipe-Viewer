@@ -62,7 +62,6 @@ class User extends React.Component {
 
     logout = () => {
         this.props.logout();
-        window.location.href = "/";
     }
 
     getRole = (user) => {
