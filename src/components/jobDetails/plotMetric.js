@@ -5,9 +5,13 @@ import Chart from 'chart.js';
 
 class PlotMetric extends React.Component {
     static propTypes = {
-        validationData: PropTypes.array.isRequired,
-        trainingData: PropTypes.array.isRequired,
+        validationData: PropTypes.array,
+        trainingData: PropTypes.array,
         name: PropTypes.string.isRequired,
+    }
+    static defaultProps = {
+        trainingData: [],
+        validationData: [],
     }
 
     constructor(props) {
@@ -33,8 +37,8 @@ class PlotMetric extends React.Component {
         let labels = [];
         let trainValues = [];
         let valValues = [];
-        const td = this.props.trainingData;
-        const vd = this.props.validationData;
+        const td = this.props.trainingData || [];
+        const vd = this.props.validationData || [];
         let valCounter = 0;
         for(let i = 0; i < td.length; ++i) {
             const label = td[i].epoch + " | " + td[i].batch;

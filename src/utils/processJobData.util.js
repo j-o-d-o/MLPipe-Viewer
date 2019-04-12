@@ -18,7 +18,7 @@ class JobData {
     }
 
     static getTrainingMetricValues(exp, metricName) {
-        if(exp.metrics !== undefined && exp.metrics.training !== undefined) {
+        if(exp.metrics !== undefined && exp.metrics.training !== undefined && metricName in exp.metrics.training) {
             return exp.metrics.training[metricName];
         }
         else {
@@ -27,7 +27,7 @@ class JobData {
     }
 
     static getValidationMetricValues(exp, metricName) {
-        if(exp.metrics.validation !== undefined) {
+        if(exp.metrics !== undefined && exp.metrics.validation !== undefined && metricName in exp.metrics.validation) {
             return exp.metrics.validation[metricName];
         }
         else {
@@ -53,10 +53,10 @@ class JobData {
                 statusStr = "training finished";
                 break;
             case 2:
-                statusStr = "test running";
+                statusStr = "test finished";
                 break;
             case 200:
-                statusStr = "test finished";
+                statusStr = "test running";
                 break;
             default:
                 statusStr = "unkown status code: " + exp.status;
@@ -67,6 +67,8 @@ class JobData {
 
     static getProgress(exp) {
         const fullSteps = exp.max_epochs * exp.max_batches_per_epoch;
+        if(fullSteps === 0)
+            return 0;
         const currStep = exp.max_batches_per_epoch * exp.curr_epoch + (exp.curr_batch + 1);
         const progress = currStep / fullSteps;
         return progress;
