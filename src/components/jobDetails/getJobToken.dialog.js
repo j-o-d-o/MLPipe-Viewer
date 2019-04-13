@@ -62,6 +62,7 @@ class GetJobToken extends React.Component {
         }
         else if (res.status === 401 || res.status === 403) {
             this.props.snackbarError("Not Authorized to get this Token");
+            this.setState({ showDialog: false });
         }
         else {
             console.log(res);

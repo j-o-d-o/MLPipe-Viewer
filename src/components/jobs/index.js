@@ -9,8 +9,8 @@ import JobApi from 'apis/job';
 import { Button } from '@rmwc/button';
 import CreateJobDialog from './createJob.dialog';
 import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
-import { Ripple } from '@rmwc/ripple';
-import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
+//import { Ripple } from '@rmwc/ripple';
+//import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
 import {
     DataTable,
     DataTableContent,
@@ -72,9 +72,12 @@ class Jobs extends React.Component {
                     <DataTableCell>
                         <NavLink className="job-details-link" exact to={"/job/" + jobs[i]._id}>{jobs[i].name}</NavLink>
                     </DataTableCell>
-                    <DataTableCell>{jobs[i].creator.name}</DataTableCell>
+                    <DataTableCell>
+                        <NavLink className="job-details-link" exact to={"/user/" + jobs[i].creator._id}>{jobs[i].creator.name}</NavLink>
+                    </DataTableCell>
                     <DataTableCell alignEnd>{typeTable[jobs[i].type]}</DataTableCell>
                     <DataTableCell alignEnd>{dayjs(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
+                    {/*
                     <DataTableCell alignMiddle>
                         <MenuSurfaceAnchor>
                             <Menu
@@ -91,6 +94,7 @@ class Jobs extends React.Component {
                             </Ripple>
                         </MenuSurfaceAnchor>
                     </DataTableCell>
+                    */}
                 </DataTableRow>
             ));
         }
