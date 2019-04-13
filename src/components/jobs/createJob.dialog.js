@@ -35,7 +35,7 @@ class CreateJobDialog extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this._mountGuard = false;
         this.props.provider({
             show: () => this.setState({showDialog: true}),

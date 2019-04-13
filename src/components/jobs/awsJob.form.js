@@ -20,7 +20,7 @@ class AWSJobForm extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.provider({
             getData: () => { return this.state },
         });

@@ -28,7 +28,7 @@ class User extends React.Component {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         this.updateUser(this.props.match.params.user);
     }
     componentWillUnmount() {

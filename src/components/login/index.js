@@ -29,7 +29,7 @@ class Login extends React.Component {
         }
     }
 
-    componentWillMount = () => this._mountGuard = false;
+    componentDidMount = () => this._mountGuard = false;
     componentWillUnmount = () => this._mountGuard = true;
 
     submitLogin = async (e) => {

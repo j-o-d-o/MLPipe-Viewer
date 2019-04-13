@@ -40,7 +40,7 @@ class Jobs extends React.Component {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         this._mountGuard = false;
         this.props.showLoading();
 
@@ -83,7 +83,7 @@ class Jobs extends React.Component {
                                 open={this.state.openMenuByJobId === jobs[i]._id}
                                 onClose={evt => this.setState({openMenuByJobId: null})}
                             >
-                                <MenuItem onClick={evt => alert("Not implemented")}>Edit</MenuItem>
+                                <MenuItem onClick={evt => alert("Not implemented")}>Get Token</MenuItem>
                                 <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
                             </Menu>
                             <Ripple primary>

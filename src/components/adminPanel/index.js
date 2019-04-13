@@ -41,7 +41,7 @@ class AdminPanel extends React.Component {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         this._mountGuard = false;
         this.props.showLoading();
 

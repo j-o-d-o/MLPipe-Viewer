@@ -31,7 +31,7 @@ class UserForm extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.provider({
             getData: () => { 
                 let userData = this.state;

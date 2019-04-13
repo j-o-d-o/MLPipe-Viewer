@@ -8,6 +8,7 @@ class PlotMetric extends React.Component {
         validationData: PropTypes.array,
         trainingData: PropTypes.array,
         name: PropTypes.string.isRequired,
+        expId: PropTypes.string.isRequired,
     }
     static defaultProps = {
         trainingData: [],
@@ -26,11 +27,17 @@ class PlotMetric extends React.Component {
         this.createChart();
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.props = nextProps;
-        const data = this.createData();
-        this._chart.data = data;
-        this._chart.update();
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(prevProps.trainingData.length);
+        console.log(this.props.trainingData.length);
+        if (this.props.name !== prevProps.name ||
+            this.props.expId !== prevProps.expId ||
+            this.props.validationData.length !== prevProps.validationData.length ||
+            this.props.trainingData.length !== prevProps.trainingData.length) {
+            const data = this.createData();
+            this._chart.data = data;
+            this._chart.update();
+        }
     }
 
     createData = () => {

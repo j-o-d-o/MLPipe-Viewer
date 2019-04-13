@@ -19,7 +19,7 @@ class PublicKeyDialog extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.provider({
             show: (publicKey, keyName) => this.setState({showDialog: true, publicKey, keyName}),
         });

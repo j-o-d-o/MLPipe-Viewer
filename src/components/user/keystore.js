@@ -36,7 +36,7 @@ class Keystore extends React.Component {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         this._mountGuard = false;
         this.setState({showLoading: true});
         const res = await KeystoreApi.get(this.props.userId);

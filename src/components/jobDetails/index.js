@@ -1,20 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
 import { connect } from 'react-redux';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { snackbarError } from 'redux/actions/snackbar';
 import JobApi from 'apis/job';
-import { NavLink } from 'react-router-dom';
 import GetJobToken from './getJobToken.dialog';
 import PlotMetric from './plotMetric';
 import DisplayLog from './displayLog';
+import BasicInfo from './basicInfo';
 import JobData from 'utils/processJobData.util';
 import { Button } from '@rmwc/button';
 import { Select } from '@rmwc/select';
 import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
-import { LinearProgress } from '@rmwc/linear-progress';
-import { Grid, GridCell } from '@rmwc/grid';
 
 
 class JobDetails extends React.Component {
@@ -41,8 +38,10 @@ class JobDetails extends React.Component {
         if(this._mountGuard) return;
         if (res.status === 200){
             let timeout = 7000;
+            const showMetric = this.getDefaultMeric(res.json, this.state.showMetric);
             this.setState({
                 job: res.json,
+                showMetric
             });
             // depending on the current exp status, chose timeout length
             if(res.json.experiments.length > 0){
@@ -59,7 +58,7 @@ class JobDetails extends React.Component {
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         this._mountGuard = false;
         this.props.showLoading();
 
@@ -68,15 +67,7 @@ class JobDetails extends React.Component {
 
         this.props.hideLoading();
         if (res.status === 200) {
-            // Chose first metric as default value for showMetric
-            let showMetric = "";
-            if (res.json.experiments.length > 0) {
-                const experiment = res.json.experiments[0]; // assuming a 1:1 mapping
-                const objectKeys = Object.keys(experiment.metrics.training);
-                if(objectKeys.length > 0) {
-                    showMetric = objectKeys[0];
-                }
-            }
+            const showMetric = this.getDefaultMeric(res.json, this.state.showMetric);
             this.setState({ 
                 job: res.json,
                 showMetric,
@@ -93,6 +84,21 @@ class JobDetails extends React.Component {
     componentWillUnmount() {
         this._mountGuard = true;
         this.props.hideLoading();
+    }
+
+    // Get first metric from the metrices, if it is already set, choose that one
+    getDefaultMeric = (job, currentMetric) => {
+        if(currentMetric !== null && currentMetric !== "")
+            return currentMetric;
+        let showMetric = null;
+        if (job.experiments.length > 0) {
+            const experiment = job.experiments[0]; // assuming a 1:1 mapping
+            const objectKeys = Object.keys(experiment.metrics.training);
+            if(objectKeys.length > 0) {
+                showMetric = objectKeys[0];
+            }
+        }
+        return showMetric;
     }
 
     deleteJob = async (evt, jobId) => {
@@ -116,78 +122,52 @@ class JobDetails extends React.Component {
 
     buildContent = () => {
         const job = this.state.job;
-        if(job === null) {
+        if(job === null)
             return <div id="job-details-wrapper"></div>;
-        }
-        else if(job.experiments.length > 0) {
-            // For now, assuming there is a 1:1 mapping for experiments and jobs
-            // TODO: extend this for AWS jobs
-            const exp = job.experiments[0];
-            const metricOptions = JobData.getMetricKeys(exp);
-            const trainingData = JobData.getTrainingMetricValues(exp, this.state.showMetric);
-            const validationData = JobData.getValidationMetricValues(exp, this.state.showMetric);
-            const expStatus = JobData.getExpStatus(exp);
-            const progress = JobData.getProgress(exp);
 
+        // In case no experiments exist just yet, just show the job info pannel
+        if(job.experiments.length === 0) {
             return (
                 <div id="job-details-wrapper">
-                    <Grid id="job-details-top-row">
-                        <GridCell span={6} id="job-details-fields">
-                            {/* <div><span className="field-info">Status:</span> Trained</div> */}
-                            <div><span className="field-info">Type:</span> {JobData.resolveType(job.type)}</div>
-                            <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
-                            <div><span className="field-info">Training started:</span> {dayjs(exp.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
-                            <div><span className="field-info">Creator:</span> 
-                                <NavLink className="user-details-link" exact to={"/user/" + job.creator._id}>{job.creator.name}</NavLink>
-                            </div>
-                        </GridCell>
-                        <GridCell span={6} id="job-details-progress">
-                            <LinearProgress progress={progress}/>
-                            <div id="progress-number">{(progress * 100).toFixed(0)} %</div>
-                            <div id="status-info">STATUS: {expStatus}</div>
-                        </GridCell>
-                    </Grid>
-                    {/* TODO: job.setup_log */}
-                    <DisplayLog log={exp.log} name="Experiment Log" />
-                    {metricOptions.length > 0 ? 
-                        <div id="metrics-wrapper">
-                            <Select
-                                enhanced
-                                id="select-metric"
-                                label="Select Metric"
-                                onChange={evt => this.setState({ showMetric: evt.target.value })}
-                                value={this.state.showMetric}
-                                options={metricOptions}
-                            />
-                            <PlotMetric validationData={validationData} trainingData={trainingData} name={this.state.showMetric}/>
-                        </div>
-                    :
-                        <div id="metrics-wrapper">
-                            No Metrics available
-                        </div>
-                    }
+                    <BasicInfo job={job} />
+                    <div style={{textAlign: "center"}}>No experiment exists for this Job yet</div>
                 </div>
-            )
+            );
         }
-        else {
-            return (
-                <div id="job-details-wrapper" style={{ padding: "40px"}}>
-                    <Grid id="job-details-top-row">
-                        <GridCell span={6} id="job-details-fields">
-                            {/* <div><span className="field-info">Status:</span> Trained</div> */}
-                            <div><span className="field-info">Type:</span> {JobData.resolveType(job.type)}</div>
-                            <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
-                            <div><span className="field-info">Creator:</span> 
-                                <NavLink className="user-details-link" exact to={"/user/" + job.creator._id}>{job.creator.name}</NavLink>
-                            </div>
-                        </GridCell>
-                    </Grid>
-                    <div style={{textAlign: "center"}}>
-                        No experiment exists for this Job yet
+
+        if(job.experiments.length > 1)
+            console.log("WARNING: for the job " + job._id + " exist more than 1 experiment!" );
+
+        // For now, assuming there is a 1:1 mapping for experiments and jobs
+        // TODO: extend this for AWS jobs
+        const exp = job.experiments[0];
+        const metricOptions = JobData.getMetricKeys(exp);
+        const trainingData = JobData.getTrainingMetricValues(exp, this.state.showMetric);
+        const validationData = JobData.getValidationMetricValues(exp, this.state.showMetric);
+
+        return (
+            <div id="job-details-wrapper">
+                <BasicInfo job={job} exp={exp} />
+                <DisplayLog log={exp.log} name="Experiment Log" />
+                {metricOptions.length > 0 ? 
+                    <div id="metrics-wrapper">
+                        <Select
+                            enhanced
+                            id="select-metric"
+                            label="Select Metric"
+                            onChange={evt => this.setState({ showMetric: evt.target.value })}
+                            value={this.state.showMetric}
+                            options={metricOptions}
+                        />
+                        <PlotMetric expId={exp._id} validationData={validationData} trainingData={trainingData} name={this.state.showMetric}/>
                     </div>
-                </div>
-            )
-        }
+                :
+                    <div id="metrics-wrapper">
+                        No Metrics available
+                    </div>
+                }
+            </div>
+        )
     }
 
     render() {
@@ -199,17 +179,12 @@ class JobDetails extends React.Component {
                     <Toolbar>
                         <ToolbarRow id="toolbar-row">
                             <ToolbarTitle>{ job != null ? job.name : ""}</ToolbarTitle>
-                        </ToolbarRow>
-                    </Toolbar>
-                    <div>
-                        <div id="action-menu">
+                            <div style={{flex: 1}}></div>
                             <Button disabled={job === null} className="action-btn" onClick={(evt) => this.deleteJob(evt, job._id)}>delete</Button>
                             <Button disabled={job === null} className="action-btn" onClick={() => this._getJobToken.show()}>get token</Button>
-                        </div>
-                        <div>
-                            {this.buildContent()}
-                        </div>
-                    </div>
+                        </ToolbarRow>
+                    </Toolbar>
+                    {this.buildContent()}
                 </div>
 
                 {job !== null && 

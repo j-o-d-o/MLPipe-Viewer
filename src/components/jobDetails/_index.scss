@@ -9,20 +9,14 @@
 
         #toolbar-row{
             background: #444;
+            .action-btn{
+                margin-right: 20px;
+                color: white;
+            }
         }
 
         #job-details-wrapper{
             min-height: 350px;
-        }
-
-        #action-menu{
-            display: flex;
-            justify-content: flex-end;
-            padding: 10px;
-            
-            .action-btn{
-                margin-right: 20px;
-            }
         }
 
         #job-details-fields {
