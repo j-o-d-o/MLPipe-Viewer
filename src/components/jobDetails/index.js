@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { snackbarError } from 'redux/actions/snackbar';
 import JobApi from 'apis/job';
-import GetJobToken from './getJobToken.dialog';
 import PlotMetric from './plotMetric';
 import DisplayLog from './displayLog';
 import BasicInfo from './basicInfo';
+import JobToolbar from './jobToolbar';
 import JobData from 'utils/processJobData.util';
-import { Button } from '@rmwc/button';
 import { Select } from '@rmwc/select';
-import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
 
 
 class JobDetails extends React.Component {
@@ -76,9 +74,12 @@ class JobDetails extends React.Component {
             // Wait 3 seconds and start poll
             setTimeout(this.pollJob, 3200);
         }
+        else if (res.status === 404) {
+            this.props.history.push("/404_not_found")
+        }
         else {
             console.log(res);
-            this.props.snackbarError("Error on getting Job List");
+            this.props.snackbarError("Error on getting Job");
         }
     }
     componentWillUnmount() {
@@ -99,25 +100,6 @@ class JobDetails extends React.Component {
             }
         }
         return showMetric;
-    }
-
-    deleteJob = async (evt, jobId) => {
-        evt.preventDefault();
-        this._mountGuard = false;
-        this.props.showLoading();
-
-        const res = await JobApi.delete(this.props.match.params.job);
-        if(this._mountGuard) return;
-
-        this.props.hideLoading();
-        if (res.status === 200) {
-            // Redirect to the jobs page
-            this.props.history.push("/job");
-        }
-        else {
-            console.log(res);
-            this.props.snackbarError("Error on deleting Job");
-        }
     }
 
     buildContent = () => {
@@ -176,23 +158,9 @@ class JobDetails extends React.Component {
         return (
             <div id="job-details-page" className="flex-content">
                 <div id="job-details-content">
-                    <Toolbar>
-                        <ToolbarRow id="toolbar-row">
-                            <ToolbarTitle>{ job != null ? job.name : ""}</ToolbarTitle>
-                            <div style={{flex: 1}}></div>
-                            <Button disabled={job === null} className="action-btn" onClick={(evt) => this.deleteJob(evt, job._id)}>delete</Button>
-                            <Button disabled={job === null} className="action-btn" onClick={() => this._getJobToken.show()}>get token</Button>
-                        </ToolbarRow>
-                    </Toolbar>
+                    <JobToolbar job={job} history={this.props.history} />
                     {this.buildContent()}
                 </div>
-
-                {job !== null && 
-                    <GetJobToken
-                        jobId={job._id}
-                        provider={provide => this._getJobToken = provide}
-                    />
-                }
             </div>
         );
     }
