@@ -27,13 +27,34 @@ class UserApi {
         }
     }
 
-    static get = async (_id, addToken = false) => {
+    static get = async (_id) => {
         try {
             const token = "Bearer " + authUtil.getToken();
             let url = CONFIG.apiUrl  + 'job/' + _id;
-            if(addToken){
-                url += "/token";
+            const res = await fetch(url ,{
+                method: "GET",
+                headers: new Headers({
+                    'Authorization': token,
+                })
+            });
+            const json = await res.json();
+            middleware.apply(res, json);
+            return {
+                status: res.status,
+                json
+            };
+        } catch(error) {
+            return {
+                status: -1,
+                json: error,
             }
+        }
+    }
+
+    static getJobToken = async (_id) => {
+        try {
+            const token = "Bearer " + authUtil.getToken();
+            let url = CONFIG.apiUrl  + 'job/' + _id + "/token";
             const res = await fetch(url ,{
                 method: "GET",
                 headers: new Headers({

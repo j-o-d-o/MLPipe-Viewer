@@ -49,7 +49,7 @@ class GetJobToken extends React.Component {
         if(this.state.sending) return;
 
         this.setState({ sending: true, validation: null });
-        const res = await JobApi.get(this.props.jobId, true);
+        const res = await JobApi.getJobToken(this.props.jobId);
         if(this._mountGuard) return;
 
         this.setState({ sending: false });
