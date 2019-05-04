@@ -4,18 +4,18 @@
   "private": true,
   "dependencies": {
     "chart.js": "^2.8.0",
-    "dayjs": "^1.8.11",
+    "dayjs": "^1.8.13",
     "express": "^4.16.4",
     "immutable": "^3.8.2",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
-    "react": "^16.8.5",
-    "react-dom": "^16.8.5",
-    "react-redux": "^6.0.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.3",
     "react-redux-loading-bar": "^4.2.0",
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
-    "rmwc": "^5.2.1"
+    "rmwc": "^5.5.0"
   },
   "devDependencies": {
     "node-sass": "^4.11.0",

@@ -40,7 +40,7 @@ class LocalJobForm extends React.Component {
         return (
             <form id={this.props.id} onSubmit={this.props.onSubmit}>
                 <Validation data={this.props.validation} />
-                <TextField required label="Name" style={{ width: "300px", marginTop: "10px" }} onChange={e => this.setState({name: e.target.value })}/>
+                <TextField required label="Name" style={{ width: "100%", marginTop: "10px" }} onChange={e => this.setState({name: e.target.value })}/>
                 <textarea className="default-textarea" placeholder="Description" onChange={e => this.setState({ description: e.target.value })}/>
             </form>
         );
