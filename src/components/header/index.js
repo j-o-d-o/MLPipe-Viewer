@@ -53,6 +53,9 @@ class Header extends React.Component {
                         <NavLink to="/job" activeClassName="active-route">Jobs</NavLink>
                     </Button>
                     <Button className="nav-button">
+                        <NavLink to="/servers" activeClassName="active-route">Servers</NavLink>
+                    </Button>
+                    <Button className="nav-button">
                         <NavLink exact to={"/user/" + loggedUser._id} activeClassName="active-route">Profile</NavLink>
                     </Button>
                     { isAdmin && 
@@ -72,6 +75,10 @@ class Header extends React.Component {
                     <ListItem>
                         <NavLink exact to="/job" activeClassName="active-route"
                             onClick={() => this.setState({sideMenuOpen: false})}>Jobs</NavLink>
+                    </ListItem>
+                    <ListItem>
+                        <NavLink exact to="/servers" activeClassName="active-route"
+                            onClick={() => this.setState({sideMenuOpen: false})}>Servers</NavLink>
                     </ListItem>
                     <ListItem>
                         <NavLink exact to={"/user/" + loggedUser._id} activeClassName="active-route"
