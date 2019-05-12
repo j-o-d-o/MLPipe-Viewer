@@ -26,11 +26,11 @@ class BasicInfo extends React.Component {
         const exp = this.props.exp;
         let progress = 0;
         let expStatus = "No status";
-        let experimentStarted = "";
+        let trainingStarted = "";
         if (exp !== null) {
             expStatus = JobData.getExpStatus(exp);
             progress = JobData.getProgress(exp);
-            experimentStarted = dayjs(exp.createdAt).format("YYYY-MM-DD H:mm:s");
+            trainingStarted = dayjs(exp.createdAt).format("YYYY-MM-DD H:mm:s");
         }
 
         return (
@@ -39,7 +39,7 @@ class BasicInfo extends React.Component {
                     <div><span className="field-info">Type:</span> {JobData.resolveType(job.type)}</div>
                     <div><span className="field-info">Description:</span> {job.description}</div>
                     <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
-                    <div><span className="field-info">Training started:</span> {experimentStarted}</div>
+                    <div><span className="field-info">Training started:</span> {trainingStarted}</div>
                     <div><span className="field-info">Creator:</span> 
                         <NavLink className="user-details-link" exact to={"/user/" + job.creator._id}>{job.creator.name}</NavLink>
                     </div>

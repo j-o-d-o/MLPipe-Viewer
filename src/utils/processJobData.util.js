@@ -8,41 +8,39 @@ class JobData {
         return this.typeTable[index];
     }
 
-    static getMetricKeys(exp) {
-        if(exp.metrics === undefined) {
+    static getMetricKeys(training) {
+        if(training.metrics === undefined) {
             return [];
         }
         else {
-            return Object.keys(exp.metrics.training);
+            return Object.keys(training.metrics.training);
         }
     }
 
-    static getTrainingMetricValues(exp, metricName) {
-        if(exp.metrics !== undefined && exp.metrics.training !== undefined && metricName in exp.metrics.training) {
-            return exp.metrics.training[metricName];
-        }
-        else {
-            return [];
-        }
-    }
-
-    static getValidationMetricValues(exp, metricName) {
-        if(exp.metrics !== undefined && exp.metrics.validation !== undefined && metricName in exp.metrics.validation) {
-            return exp.metrics.validation[metricName];
+    static getTrainingMetricValues(training, metricName) {
+        if(training.metrics !== undefined && training.metrics.training !== undefined && metricName in training.metrics.training) {
+            return training.metrics.training[metricName];
         }
         else {
             return [];
         }
     }
 
-    static getExpStatus(exp) {
+    static getValidationMetricValues(training, metricName) {
+        if(training.metrics !== undefined && training.metrics.validation !== undefined && metricName in training.metrics.validation) {
+            return training.metrics.validation[metricName];
+        }
+        else {
+            return [];
+        }
+    }
+
+    static getExpStatus(training) {
         // Status -1 => in setup
         // Status 100 => training running
         // Status 1 => training finished
-        // Status 200 => test running
-        // Status 2 => test finished
         let statusStr = "";
-        switch(exp.status) {
+        switch(training.status) {
             case -1:
                 statusStr = "training starting";
                 break;
@@ -59,17 +57,19 @@ class JobData {
                 statusStr = "test running";
                 break;
             default:
-                statusStr = "unkown status code: " + exp.status;
+                statusStr = "unkown status code: " + training.status;
                 break;
         }
         return statusStr;
     }
 
-    static getProgress(exp) {
-        const fullSteps = exp.max_epochs * exp.max_batches_per_epoch;
+    static getProgress(training) {
+        if(training.curr_epoch < 0)
+            return 0;
+        const fullSteps = training.max_epochs * training.max_batches_per_epoch;
         if(fullSteps === 0)
             return 0;
-        const currStep = exp.max_batches_per_epoch * exp.curr_epoch + (exp.curr_batch + 1);
+        const currStep = training.max_batches_per_epoch * training.curr_epoch + (training.curr_batch + 1);
         const progress = currStep / fullSteps;
         return progress;
     }

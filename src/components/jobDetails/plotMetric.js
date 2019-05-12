@@ -28,8 +28,6 @@ class PlotMetric extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(prevProps.trainingData.length);
-        console.log(this.props.trainingData.length);
         if (this.props.name !== prevProps.name ||
             this.props.expId !== prevProps.expId ||
             this.props.validationData.length !== prevProps.validationData.length ||
