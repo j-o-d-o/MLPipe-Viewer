@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Validation from 'components/validation';
-import { TextField } from '@rmwc/textfield';
+
+import AceEditor from 'react-ace';
+import 'brace/mode/json';
+import 'brace/theme/github';
 
 
 class AWSRequestForm extends React.Component {
@@ -22,45 +25,35 @@ class AWSRequestForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.defaultData = {
-            imageId: "ami-xxx",
-            instanceType: "t2.micro",
-            keyName: "",
-            securityGroupId: "sg-xxx",
-            spotPrice: 0.1,
-        }
-
-        this.state = {
-            ...this.defaultData
-        };
-
-
-        this.awsConfig = {
+        const defaultDataObj = {
             InstanceCount: 1,
             LaunchSpecification: {
-                ImageId: null,
-                InstanceType: null,
-                KeyName: null,
-                SecurityGroupIds: []
+                ImageId: "ami-xxx",
+                InstanceType: "t2.micro",
+                KeyName: "",
+                SecurityGroupIds: ["sg-xxx"]
             },
-            SpotPrice: null, 
+            SpotPrice: 0.1, 
             Type: "one-time",
-        }
+        };
+        this.defaultData = JSON.stringify(defaultDataObj, null, 4);
+
+        this.state = {
+            awsConfig: this.defaultData,
+        };
     }
 
     componentDidMount() {
         this.props.provider({
             getData: () => {
-                this.awsConfig.SpotPrice = this.state.spotPrice.toString();
-                this.awsConfig.LaunchSpecification.ImageId = this.state.imageId;
-                this.awsConfig.LaunchSpecification.InstanceType = this.state.instanceType;
-                this.awsConfig.LaunchSpecification.KeyName = this.state.keyName;
-                this.awsConfig.LaunchSpecification.SecurityGroupIds = [this.state.securityGroupId];
-
-                return this.awsConfig;
+                try {
+                    return JSON.parse(this.state.awsConfig);
+                } catch (e) {
+                    return false;
+                }
             },
             reset: () => {
-                this.setState({ ...this.defaultData });
+                this.setState({ awsConfig: this.defaultData });
             }
         });
     }
@@ -70,45 +63,19 @@ class AWSRequestForm extends React.Component {
     }
 
     render() {
-        // TODO: Add info about each field so users can easily find where to put in this stuff
+        // TODO: Add info about each field
         return (
             <form id={this.props.id} onSubmit={this.props.onSubmit}>
                 <Validation data={this.props.validation} />
-                <TextField
-                    required
-                    label="ImageId"
-                    value={this.state.imageId}
-                    style={{ width: "90%", maxWidth: "500px", marginTop: "40px" }}
-                    onChange={e => this.setState({imageId: e.target.value })}
-                />
-                <TextField
-                    required
-                    label="Instance Type"
-                    value={this.state.instanceType}
-                    style={{ width: "90%", maxWidth: "500px", marginTop: "30px" }}
-                    onChange={e => this.setState({instanceType: e.target.value })}
-                />
-                <TextField
-                    required
-                    label="Security Group Id"
-                    value={this.state.securityGroupId}
-                    style={{ width: "90%", maxWidth: "500px", marginTop: "30px" }}
-                    onChange={e => this.setState({securityGroupId: e.target.value })}
-                />
-                <TextField
-                    required
-                    label="AWS Key Name"
-                    value={this.state.keyName}
-                    style={{ width: "90%", maxWidth: "500px", marginTop: "30px" }}
-                    onChange={e => this.setState({keyName: e.target.value })}
-                />
-                <TextField
-                    required
-                    label="Max Price"
-                    type="number"
-                    value={this.state.spotPrice}
-                    style={{ width: "90%", maxWidth: "250px", marginTop: "30px" }}
-                    onChange={e => this.setState({spotPrice: e.target.value })}
+
+                <AceEditor
+                    style={{marginTop: "15px", height: "400px", border: "1px solid #c1c1c1"}}
+                    mode="json"
+                    theme="github"
+                    name="aws_config_input"
+                    onChange={(config) => this.setState({ awsConfig: config })}
+                    value={this.state.awsConfig}
+                    editorProps={{$blockScrolling: true}}
                 />
             </form>
         );

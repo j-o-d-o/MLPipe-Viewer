@@ -48,10 +48,13 @@ class CreateAWSRequestDialog extends React.Component {
 
     submit = async (evt) => {
         evt.preventDefault();
-        if(this.state.sending) return;
+
+        const awsConfigData = this._awsRequestForm.getData();
+
+        if(this.state.sending || awsConfigData === false) return;
 
         this.setState({ sending: true, validation: null });
-        const awsConfigData = this._awsRequestForm.getData();
+
         const res = await ServerApi.createSpotRequest({ "aws_config": awsConfigData});
         if(this._mountGuard) return;
 

@@ -1,6 +1,13 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "baseUrl": "src",
-    }
+        "baseUrl": "src"
+      },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "dist",
+        "build",
+        "public"
+    ]
 }
