@@ -7,7 +7,7 @@ class KeystoreApi {
     static get = async (userId) => {
         try {
             const token = "Bearer " + authUtil.getToken();
-            const res = await fetch(CONFIG.apiUrl  + 'keystore',{
+            const res = await fetch(CONFIG.apiUrl  + 'keys', {
                 method: "GET",
                 headers: new Headers({
                     'Authorization': token
@@ -30,7 +30,7 @@ class KeystoreApi {
         try {
             const token = "Bearer " + authUtil.getToken();
             const jsonData = JSON.stringify({name: keyName});
-            const res = await fetch(CONFIG.apiUrl  + 'keystore', {
+            const res = await fetch(CONFIG.apiUrl  + 'key', {
                 method: "POST",
                 body: jsonData,
                 headers: new Headers({
@@ -54,7 +54,7 @@ class KeystoreApi {
     static delete = async (keyId) => {
         try {
             const token = "Bearer " + authUtil.getToken();
-            const res = await fetch(CONFIG.apiUrl  + 'keystore/' + keyId,{
+            const res = await fetch(CONFIG.apiUrl  + 'key/' + keyId,{
                 method: "DELETE",
                 headers: new Headers({
                     'Authorization': token
