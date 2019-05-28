@@ -3,7 +3,7 @@ import * as authUtil from 'utils/auth.util';
 import * as middleware from './middleware';
 
 
-class UserApi {
+class JobApi {
     static getList = async (filters={}) => {
         try {
             const token = "Bearer " + authUtil.getToken();
@@ -13,11 +13,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -37,11 +36,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -61,11 +59,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -88,11 +85,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -111,11 +107,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -126,4 +121,4 @@ class UserApi {
     }
 }
 
-export default UserApi;
+export default JobApi;

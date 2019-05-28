@@ -13,11 +13,10 @@ class UserApi {
                     'Authorization': token
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -36,11 +35,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -62,11 +60,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -88,11 +85,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
@@ -112,11 +108,10 @@ class UserApi {
                     'Authorization': token,
                 })
             });
-            const json = await res.json();
-            middleware.apply(res, json);
+            await middleware.apply(res);
             return {
                 status: res.status,
-                json
+                json: res.json,
             };
         } catch(error) {
             return {
