@@ -16,7 +16,7 @@ class AuthApi {
             await middleware.apply(res);
             return {
                 status: res.status,
-                json: res.json,
+                json: res.jsonData,
             };
         } catch(error) {
             return {
