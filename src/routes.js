@@ -14,7 +14,6 @@ import Login from 'components/login';
 import Dashboard from 'components/dashboard';
 import Jobs from 'components/jobs';
 import JobDetails from 'components/jobDetails';
-// import Servers from 'components/servers';
 import AdminPanel from 'components/adminPanel';
 // Error Pages
 import Error404 from 'components/errors/404';
@@ -32,7 +31,6 @@ export default (
                 <PrivateRoute path="/user/:user" component={User} />
                 <PrivateRoute exact path="/job" component={Jobs} />
                 <PrivateRoute path="/job/:job" component={JobDetails} />
-                {/* <PrivateRoute exact path="/servers" component={Servers} /> */}
 
                 <AdminRoute path="/admin_panel" component={AdminPanel} />
 
