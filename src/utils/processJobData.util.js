@@ -27,6 +27,7 @@ class JobData {
     }
 
     static getValidationMetricValues(training, metricName) {
+        metricName = "val_" + metricName;
         if(training.metrics !== undefined && training.metrics.validation !== undefined && metricName in training.metrics.validation) {
             return training.metrics.validation[metricName];
         }

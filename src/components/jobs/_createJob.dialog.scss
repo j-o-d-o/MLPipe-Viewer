@@ -8,8 +8,20 @@
     #tab-content {
         width: 100%;
         max-width: 800px;
-        height: 300px;
+        height: 90%;
         padding: 35px;
         box-sizing: border-box;
+    }
+
+    .sub-heading {
+        font-size: 14px;
+        margin-top: 22px;
+        padding: 4px;
+        color: white;
+        background: #999;
+        text-align: center;
+        border-bottom: 2px solid #717171;
+        border-right: 2px solid #8a8989;
+        border-radius: 4px;
     }
 }

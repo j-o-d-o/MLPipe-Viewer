@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { snackbarError } from 'redux/actions/snackbar';
 import JobApi from 'apis/job';
 import LocalJobForm from './localJob.form';
-import AWSJobForm from './awsJob.form';
+import RemoteJobForm from './remoteJob.form';
 import { LinearProgress } from '@rmwc/linear-progress';
 import { Button } from '@rmwc/button';
 import { TabBar, Tab } from '@rmwc/tabs';
@@ -46,12 +46,22 @@ class CreateJobDialog extends React.Component {
         this.props.provider(null);
     }
 
-    submitLocal = async (evt) => {
+    submit = async (evt, type) => {
         evt.preventDefault();
         if(this.state.sending) return;
 
         this.setState({ sending: true, validation: null });
-        const res = await JobApi.create("local", this._localForm.getData());
+
+        let res;
+        if(type === "local") {
+            res = await JobApi.createLocal(this._localForm.getData());
+        }
+        else if(type === "remote") {
+            res = await JobApi.createRemote(this._remoteForm.getData());
+        }
+        else {
+            console.log("Unkown type: " + type);
+        }
         if(this._mountGuard) return;
 
         this.setState({ sending: false });
@@ -68,27 +78,22 @@ class CreateJobDialog extends React.Component {
         }
     }
 
-    submitAWS = async (evt) => {
-        evt.preventDefault();
-        // const data = this._awsForm.getData();
-    }
-
     render() {
         let tabContent;
         switch(this.state.activeTab) {
             case 0:
+                tabContent = <RemoteJobForm
+                                id="job-form"
+                                provider={provide => this._remoteForm = provide}
+                                validation={this.state.validation}
+                                onSubmit={e => this.submit(e, "remote")} />
+                break;
+            case 1:
                 tabContent = <LocalJobForm
                                 id="job-form"
                                 provider={provide => this._localForm = provide} 
                                 validation={this.state.validation} 
-                                onSubmit={this.submitLocal} />
-                break;
-            case 1:
-                tabContent = <AWSJobForm
-                                id="job-form"
-                                provider={provide => this._awsForm = provide}
-                                validation={this.state.validation}
-                                onSubmit={this.submitAWS} />
+                                onSubmit={e => this.submit(e, "local")} />
                 break;
             default:
                 tabContent = "<div>Unkown Tab Index</div>";
@@ -107,8 +112,8 @@ class CreateJobDialog extends React.Component {
                         activeTabIndex={this.state.activeTab}
                         onActivate={evt => this.setState({activeTab: evt.detail.index, validation: null})}
                     >
+                        <Tab>Remote</Tab>
                         <Tab>Local</Tab>
-                        <Tab>AWS</Tab>
                     </TabBar>
                     <div id="tab-content">
                         {tabContent}

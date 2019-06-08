@@ -72,12 +72,11 @@ class JobApi {
         }
     }
 
-    static create = async(type, data) => {
+    static createLocal = async(data) => {
         try {
-            // type can be any of: ["local", "aws"]
             const token = "Bearer " + authUtil.getToken();
             const jsonData = JSON.stringify(data);
-            const res = await fetch(CONFIG.apiUrl  + 'job/' + type, {
+            const res = await fetch(CONFIG.apiUrl  + 'job/local', {
                 method: "POST",
                 body: jsonData,
                 headers: new Headers({
@@ -85,6 +84,32 @@ class JobApi {
                     'Authorization': token,
                 })
             });
+            await middleware.apply(res);
+            return {
+                status: res.status,
+                json: res.jsonData,
+            };
+        } catch(error) {
+            return {
+                status: -1,
+                json: error,
+            }
+        }
+    }
+
+    static createRemote = async(formData) => {
+        try {
+            const token = "Bearer " + authUtil.getToken();
+            console.log(formData.get("name"));
+            console.log(formData.get("train_src"));
+            const res = await fetch(CONFIG.apiUrl  + 'job/remote', {
+                method: "POST",
+                body: formData,
+                headers: new Headers({
+                    'Authorization': token,
+                })
+            });
+            console.log(res);
             await middleware.apply(res);
             return {
                 status: res.status,
