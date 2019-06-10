@@ -38,6 +38,7 @@ class BasicInfo extends React.Component {
                 <GridCell span={6} id="job-details-fields">
                     <div><span className="field-info">Type:</span> {JobData.resolveType(job.type)}</div>
                     <div><span className="field-info">Description:</span> {job.description}</div>
+                    <div><span className="field-info">Job Status:</span> {JobData.getJobStatus(job.is_finished, job.in_error)}</div>
                     <div><span className="field-info">Job created:</span> {dayjs(job.createdAt).format("YYYY-MM-DD H:mm:s")}</div>
                     <div><span className="field-info">Training started:</span> {trainingStarted}</div>
                     <div><span className="field-info">Creator:</span> 

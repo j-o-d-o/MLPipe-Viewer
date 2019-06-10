@@ -115,6 +115,7 @@ class JobDetails extends React.Component {
             return (
                 <div id="job-details-wrapper">
                     <BasicInfo job={job} />
+                    <DisplayLog log={job.setup_log.join("")} name="Job Setup Log" />
                     <div style={{textAlign: "center"}}>No training exists for this Job yet</div>
                 </div>
             );
@@ -124,7 +125,6 @@ class JobDetails extends React.Component {
             console.log("WARNING: for the job " + job._id + " exist more than 1 training!" );
 
         // For now, assuming there is a 1:1 mapping for trainings and jobs
-        // TODO: extend this for AWS jobs
         const exp = job.trainings[0];
         const metricOptions = JobData.getMetricKeys(exp);
         const trainingData = JobData.getTrainingMetricValues(exp, this.state.showMetric);
@@ -133,6 +133,7 @@ class JobDetails extends React.Component {
         return (
             <div id="job-details-wrapper">
                 <BasicInfo job={job} exp={exp} />
+                <DisplayLog log={job.setup_log.join("")} name="Job Setup Log" />
                 <DisplayLog log={exp.log} name="Training Log" />
                 {metricOptions.length > 0 ? 
                     <div id="metrics-wrapper">

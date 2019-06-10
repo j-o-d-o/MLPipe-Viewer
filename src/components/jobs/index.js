@@ -5,12 +5,13 @@ import { NavLink } from 'react-router-dom';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import dayjs from 'dayjs';
 import { snackbarError } from 'redux/actions/snackbar';
+import JobData from 'utils/processJobData.util';
 import JobApi from 'apis/job';
 import { Button } from '@rmwc/button';
 import CreateJobDialog from './createJob.dialog';
 import { Toolbar, ToolbarRow, ToolbarTitle} from '@rmwc/toolbar';
-//import { Ripple } from '@rmwc/ripple';
-//import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
+import { Ripple } from '@rmwc/ripple';
+import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
 import {
     DataTable,
     DataTableContent,
@@ -61,23 +62,42 @@ class Jobs extends React.Component {
         this.props.hideLoading();
     }
 
+
+    deleteJob = async (evt, jobId) => {
+        evt.preventDefault();
+        this._mountGuard = false;
+        this.props.showLoading();
+
+        const res = await JobApi.delete(jobId);
+        if(this._mountGuard) return;
+
+        this.props.hideLoading();
+        if (res.status === 200) {
+            // Remove for the the list of jobs
+            const jobs = this.state.jobs.filter(item => item._id !== jobId);
+            this.setState({jobs: jobs});
+        }
+        else {
+            console.log(res);
+            this.props.snackbarError("Error on deleting Job");
+        }
+    }
+
     render() {
         const jobs = this.state.jobs;
-        const typeTable = { 0: "Local", 1: "AWS"};
         let tableRows = [];
         for(let i = 0; i < jobs.length; i++ ){
             tableRows.push((
                 <DataTableRow key={"job-" + jobs[i]._id}>
-                    {/* <DataTableCell alignEnd>{jobs[i].is_finished}</DataTableCell> */}
                     <DataTableCell>
                         <NavLink className="job-details-link" exact to={"/job/" + jobs[i]._id}>{jobs[i].name}</NavLink>
                     </DataTableCell>
                     <DataTableCell>
                         <NavLink className="job-details-link" exact to={"/user/" + jobs[i].creator._id}>{jobs[i].creator.name}</NavLink>
                     </DataTableCell>
-                    <DataTableCell alignEnd>{typeTable[jobs[i].type]}</DataTableCell>
+                    <DataTableCell alignEnd>{JobData.getJobStatus(jobs[i].is_finished, jobs[i].in_error)}</DataTableCell>
+                    <DataTableCell alignEnd>{JobData.resolveType(jobs[i].type)}</DataTableCell>
                     <DataTableCell alignEnd>{dayjs(jobs[i].createdAt).format("YYYY-MM-DD H:mm:s")}</DataTableCell>
-                    {/*
                     <DataTableCell alignMiddle>
                         <MenuSurfaceAnchor>
                             <Menu
@@ -86,15 +106,14 @@ class Jobs extends React.Component {
                                 open={this.state.openMenuByJobId === jobs[i]._id}
                                 onClose={evt => this.setState({openMenuByJobId: null})}
                             >
-                                <MenuItem onClick={evt => alert("Not implemented")}>Get Token</MenuItem>
-                                <MenuItem onClick={evt => alert("Not implemented")}>Delete</MenuItem>
+                                {/* <MenuItem onClick={e => alert("Not implemented")}>Get Token</MenuItem> */}
+                                <MenuItem onClick={e => this.deleteJob(e, jobs[i]._id)}>Delete</MenuItem>
                             </Menu>
                             <Ripple primary>
                                 <i className="material-icons open-menu" onClick={evt => this.setState({openMenuByJobId: jobs[i]._id})}>more_vert</i>
                             </Ripple>
                         </MenuSurfaceAnchor>
                     </DataTableCell>
-                    */}
                 </DataTableRow>
             ));
         }
@@ -113,9 +132,9 @@ class Jobs extends React.Component {
                         <DataTableContent id="jobs-table--content">
                             <DataTableHead>
                                 <DataTableRow>
-                                    {/* <DataTableHeadCell>Status</DataTableHeadCell> */}
                                     <DataTableHeadCell>Name</DataTableHeadCell>
                                     <DataTableHeadCell>User</DataTableHeadCell>
+                                    <DataTableHeadCell alignEnd>Status</DataTableHeadCell>
                                     <DataTableHeadCell alignEnd>Type</DataTableHeadCell>
                                     <DataTableHeadCell alignEnd>Created At</DataTableHeadCell>
                                     <DataTableHeadCell alignMiddle></DataTableHeadCell>

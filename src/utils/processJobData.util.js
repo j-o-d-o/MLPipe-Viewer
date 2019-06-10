@@ -1,7 +1,7 @@
 class JobData {
     static typeTable = { 
         0: "Local", 
-        1: "AWS"
+        1: "Remote"
     };
 
     static resolveType(index){
@@ -62,6 +62,18 @@ class JobData {
                 break;
         }
         return statusStr;
+    }
+
+    static getJobStatus(isFinished, inError) {
+        if(inError) {
+            return "In Error";
+        }
+        else if(isFinished) {
+            return "Set up successful";
+        }
+        else {
+            return "Setting up...";
+        }
     }
 
     static getProgress(training) {
