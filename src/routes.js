@@ -26,7 +26,7 @@ export default (
             <Switch>
                 <PublicRoute exact path="/login" component={Login} />
 
-                <PrivateRoute exact path="/" component={Dashboard} />
+                <PrivateRoute exact path="/" component={Jobs} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute path="/user/:user" component={User} />
                 <PrivateRoute exact path="/job" component={Jobs} />

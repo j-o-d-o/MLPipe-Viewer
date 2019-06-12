@@ -46,9 +46,11 @@ class Header extends React.Component {
             loggedUser = authUtil.getUser();
             TopAppBarSectionContent = (
                 <TopAppBarSection alignEnd>
+                    {/*
                     <Button className="nav-button">
                         <NavLink exact to="/dashboard" activeClassName="active-route">Dashboard</NavLink>
                     </Button>
+                    */}
                     <Button className="nav-button">
                         <NavLink to="/job" activeClassName="active-route">Jobs</NavLink>
                     </Button>
@@ -65,10 +67,12 @@ class Header extends React.Component {
 
             SideMenuContent = (
                 <List>
+                    {/* 
                     <ListItem>
                         <NavLink exact to="/dashboard" activeClassName="active-route"
                             onClick={() => this.setState({sideMenuOpen: false})}>Dashboard</NavLink>
                     </ListItem>
+                    */}
                     <ListItem>
                         <NavLink exact to="/job" activeClassName="active-route"
                             onClick={() => this.setState({sideMenuOpen: false})}>Jobs</NavLink>
