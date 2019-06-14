@@ -13,7 +13,6 @@ export async function apply(res) {
 
     // If "not authorized" 401 error but there is logged in user stored, logg the user out
     if(res.status === 401 && authUtil.isLogged()) {
-        console.log("HERE");
         store.dispatch(authActions.logout());
     }
 }

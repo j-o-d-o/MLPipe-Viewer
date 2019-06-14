@@ -10,6 +10,7 @@ import BasicInfo from './basicInfo';
 import JobToolbar from './jobToolbar';
 import JobData from 'utils/processJobData.util';
 import { Select } from '@rmwc/select';
+import { Button } from '@rmwc/button';
 
 
 class JobDetails extends React.Component {
@@ -135,6 +136,7 @@ class JobDetails extends React.Component {
                 <BasicInfo job={job} exp={exp} />
                 <DisplayLog log={job.setup_log.join("")} name="Job Setup Log" />
                 <DisplayLog log={exp.log} name="Training Log" />
+
                 {metricOptions.length > 0 ? 
                     <div id="metrics-wrapper">
                         <Select
@@ -152,6 +154,16 @@ class JobDetails extends React.Component {
                         No Metrics available
                     </div>
                 }
+
+                <Button
+                    style={{marginLeft: "50px"}}
+                    onClick={() => JobApi.downloadModel(
+                        exp._id,
+                        exp.weights[exp.weights.length - 1].epoch, 
+                        exp.weights[exp.weights.length - 1].batch)}>
+                    
+                    Download
+                </Button>
             </div>
         )
     }

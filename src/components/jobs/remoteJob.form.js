@@ -88,7 +88,6 @@ class RemoteJobForm extends React.Component {
         } 
         else {
             console.log(res);
-            this.props.snackbarError("Error on getting Keys for Dropdown");
         }
     }
 

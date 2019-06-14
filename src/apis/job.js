@@ -144,6 +144,38 @@ class JobApi {
             }
         }
     }
+
+    static downloadModel = async(trainingId, epoch, batch) => {
+        const token = "Bearer " + authUtil.getToken();
+        const url = CONFIG.apiUrl  + 'training/' + trainingId + "/download/" + epoch + "/" + batch;
+
+        // streamSaver source code is in public/dependencies/StreamSaver.js
+        const fileStream = window.streamSaver.createWriteStream(trainingId + "_" + epoch + "_" + batch + ".h5");
+        
+        const res = await fetch(url, {
+            method: "GET",
+            headers: new Headers({
+                'Authorization': token,
+            }),
+        });
+        const readableStream = res.body;
+        console.log(res);
+
+        // more optimized
+        if (window.WritableStream && readableStream.pipeTo) {
+            return readableStream.pipeTo(fileStream).then(() => console.log('done writing'));
+        }
+
+        window.writer = fileStream.getWriter();
+
+        const reader = res.body.getReader();
+        const pump = () => reader.read()
+            .then(res => res.done
+            ? window.writer.close()
+            : window.writer.write(res.value).then(pump));
+
+        pump();
+    }
 }
 
 export default JobApi;
