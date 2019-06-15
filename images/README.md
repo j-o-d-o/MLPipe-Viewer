@@ -1,0 +1,1 @@
+Some images that are used in the main README.md file
