@@ -2,12 +2,12 @@
 
 # MLPipe Viewer
 
-ReactJS frontend implementation for the [MLPipe-Manager](https://github.com/j-o-d-o/MLPipe-Manager) server API
-</br></br>
-Easy to use interface with login, admin panel, job creation & managment and training results.
+ReactJS frontend implementation for the [MLPipe-Manager](https://github.com/j-o-d-o/MLPipe-Manager) server API to manage your tensorflow models and training results. Features including: User Managment, start training on remote machine, manage trainings, visualize results.
 
 ## Getting started
-In order for the App to get any meaningful data, a working MLPipe-Manager API must be already available.
+
+#### Prerequisite
+- A working [MLPipe-Manager API](https://github.com/j-o-d-o/MLPipe-Manager)
 
 ```bash
 # Clone the MLPipe-Viewer project from github
@@ -27,6 +27,14 @@ Per default the app will run on Port 9000. Change the Port in __server.js__ as n
 # or to start with pm2
 pm2 start server.js --name MLPipe-Viewer
 ```
+
+## The Looks
+
+#### Job Managment
+<kbd><img src="images/job_managment.png" /></kbd>
+
+#### Training Info
+<kbd><img src="images/training.png" /></kbd>
 
 ## Serve via Nginx (optional)
 In case you want to serve the GUI via Nginx follow these steps.
@@ -67,12 +75,3 @@ server {
 Next step is to create the certificate. You can either buy a https certificate or create one yourself with certbot by executing:
 `>> sudo certbot --nginx -d my-domain.com` and restart nginx again since certbot added the certificate location the the nginx config file.</br>
 A good tutorial on how to setup certbot can be found [here](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
-
-
-## The Looks
-
-#### Job Managment
-<kbd><img src="images/job_managment.png" /></kbd>
-
-#### Training Info
-<kbd><img src="images/training.png" /></kbd>
