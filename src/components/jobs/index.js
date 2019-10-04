@@ -93,7 +93,11 @@ class Jobs extends React.Component {
                         <NavLink className="job-details-link" exact to={"/job/" + jobs[i]._id}>{jobs[i].name}</NavLink>
                     </DataTableCell>
                     <DataTableCell>
+                        {jobs[i].creator !== null ?
                         <NavLink className="job-details-link" exact to={"/user/" + jobs[i].creator._id}>{jobs[i].creator.name}</NavLink>
+                        :
+                        <div className="job-details-link">Unkown User</div>
+                        }
                     </DataTableCell>
                     <DataTableCell alignEnd>{JobData.getJobStatus(jobs[i].is_finished, jobs[i].in_error)}</DataTableCell>
                     <DataTableCell alignEnd>{JobData.resolveType(jobs[i].type)}</DataTableCell>
@@ -134,7 +138,7 @@ class Jobs extends React.Component {
                                 <DataTableRow>
                                     <DataTableHeadCell>Name</DataTableHeadCell>
                                     <DataTableHeadCell>User</DataTableHeadCell>
-                                    <DataTableHeadCell alignEnd>Status</DataTableHeadCell>
+                                    <DataTableHeadCell alignEnd>Job Status</DataTableHeadCell>
                                     <DataTableHeadCell alignEnd>Type</DataTableHeadCell>
                                     <DataTableHeadCell alignEnd>Created At</DataTableHeadCell>
                                     <DataTableHeadCell alignMiddle></DataTableHeadCell>

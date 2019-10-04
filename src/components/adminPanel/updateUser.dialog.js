@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { snackbarError } from 'redux/actions/snackbar';
+import { updateLogged } from 'redux/actions/auth';
 import UserApi from 'apis/user';
+import * as authUtil from 'utils/auth.util';
 import UserForm from './user.form';
 import { LinearProgress } from '@rmwc/linear-progress';
 import { Button } from '@rmwc/button';
@@ -63,6 +65,10 @@ class UpdateUserDialog extends React.Component {
             this.props.cb(res.json);
             this._userForm.reset();
             this.setState({ showDialog: false });
+            // in case we are updating the current logged in user, we also need to update the redux store
+            if(authUtil.getUser() !== undefined  && authUtil.getUser()._id === res.json._id) {
+                this.props.updateLogged(res.json);
+            }
         }
         else if (res.status === 400) {
             this.setState({validation: res});
@@ -100,5 +106,5 @@ class UpdateUserDialog extends React.Component {
     }
 }
 
-const mapDispatchToProps = { snackbarError };
+const mapDispatchToProps = { updateLogged, snackbarError };
 export default connect(null, mapDispatchToProps)(UpdateUserDialog);

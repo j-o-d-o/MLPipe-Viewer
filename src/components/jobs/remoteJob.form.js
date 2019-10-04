@@ -67,6 +67,39 @@ class RemoteJobForm extends React.Component {
                 }
                 return formData;
             },
+            getDataAsObject: () => {
+                const objData = {
+                    "name": this.state.name,
+                    "description": this.state.description,
+                    "exec_path": this.state.exec_path,
+                    "conda_env": this.state.conda_env,
+                    "api_url": this.state.api_url,
+                    "config_path": this.state.config_path,
+                    "server_ip": this.state.server_ip,
+                    "ssh_port": this.state.ssh_port,
+                    "user_name": this.state.user_name,
+                    "key": this.state.key,
+                    "aws_spot_request_id": this.state.aws_spot_request_id,
+                    "aws_instance_id": this.state.aws_instance_id,
+                };
+                return objData;
+            },
+            setData: (defaultParams) => {
+                this.setState({
+                    name: defaultParams.name || "",
+                    description: defaultParams.description || "",
+                    exec_path: defaultParams.exec_path || "",
+                    config_path: defaultParams.config_path || "",
+                    conda_env: defaultParams.conda_env || "",
+                    api_url: defaultParams.api_url || "https://",
+                    server_ip: defaultParams.server_ip || "",
+                    ssh_port: defaultParams.ssh_port || 22,
+                    user_name: defaultParams.user_name || "",
+                    key: defaultParams.key || "",
+                    aws_instance_id: defaultParams.aws_instance_id || "",
+                    aws_spot_request_id: defaultParams.aws_spot_request_id || "",
+                })
+            },
         });
 
         const user = getUser();
