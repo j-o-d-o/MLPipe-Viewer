@@ -41,7 +41,6 @@ export default function authReducer(state = initalState, action) {
         }
         case types.UPDATE_LOGGED: {
             // @param user [object]: a user object
-            console.log(action.user);
             let userMap = Map(action.user);
             let loggedMap = state.get("loggedUser");
             let mergedMap = loggedMap.merge(userMap);

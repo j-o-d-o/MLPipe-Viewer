@@ -43,7 +43,6 @@ class CreateJobDialog extends React.Component {
         this._mountGuard = false;
         this.props.provider({
             show: () => {
-                console.log(authUtil.getUser());
                 const defaultParams = authUtil.getUser().default_job_data;
                 if(defaultParams !== undefined && defaultParams !== null) {
                     this._remoteForm.setData(defaultParams);
@@ -58,13 +57,10 @@ class CreateJobDialog extends React.Component {
     }
 
     saveRemoteDataAsDefault = async (evt, type) => {
-        console.log("Save as default!");
         if(this.sendingDefaultParams) return;
         this.setState({ sendingDefaultParams: true });
         const userId = authUtil.getUser()._id;
         const userData = { user: { default_job_data: this._remoteForm.getDataAsObject() }};
-        console.log(userId);
-        console.log(userData);
         const res = await UserApi.update(userId, userData);
         this.setState({ sendingDefaultParams: false });
         if (res.status === 200) {
